@@ -1,26 +1,35 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
+import Header from './components/layout/Header';
+import Footer from './components/layout/Footer';
+import Home from './pages/Home';
+import Upload from './pages/Upload';
+import History from './pages/History';
+import Verify from './pages/Verify';
+import { useTheme } from './hooks/useTheme';
+import './styles/globals.css';
 
-function App() {
+const App: React.FC = () => {
+  useTheme(); // Initialize theme
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="min-h-screen bg-white dark:bg-dark-100 transition-colors duration-300">
+        <Header />
+        
+        <AnimatePresence mode="wait">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/upload" element={<Upload />} />
+            <Route path="/history" element={<History />} />
+            <Route path="/verify" element={<Verify />} />
+          </Routes>
+        </AnimatePresence>
+        <Footer />
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;

@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  
+  body {
+    @apply bg-black text-white transition-colors duration-300;
+  }
+}
+
+@layer components {
+  .cyber-border {
+    @apply border border-cyan-500/30 rounded-lg bg-black/80 backdrop-blur-sm shadow-2xl;
+  }
+  
+  .terminal-window {
+    @apply bg-black text-cyan-400 font-mono rounded-lg p-4 border border-cyan-500 shadow-lg;
+  }
+  
+  .futuristic-card {
+    @apply bg-black/60 backdrop-blur-md border border-cyan-500/20 rounded-xl shadow-2xl;
+  }
+  
+  .glass-card {
+    @apply bg-gradient-to-br from-cyan-500/10 to-purple-500/10 backdrop-blur-md border border-white/10 rounded-2xl shadow-2xl;
+  }
+  
+  .hud-element {
+    @apply bg-black/80 border border-cyan-400/50 rounded-lg backdrop-blur-sm;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-black;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-cyan-500 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-cyan-400;
+}
+
+/* Particle animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(180deg); }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(34, 211, 238, 0.5); }
+  50% { box-shadow: 0 0 40px rgba(34, 211, 238, 0.8); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite alternate;
+}
