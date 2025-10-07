@@ -22,27 +22,27 @@ const Home: React.FC = () => {
   const companies = [
   {
     name: "Solana",
-    logo: "https://cryptologos.cc/logos/solana-sol-logo.svg?v=030",
+    logo: "/sol.png",
   },
   {
     name: "Chainlink",
-    logo: "https://cryptologos.cc/logos/chainlink-link-logo.svg?v=030",
+    logo: "/cha.png",
   },
   {
     name: "Serum",
-    logo: "https://cryptologos.cc/logos/serum-srm-logo.svg?v=030",
+    logo: "/ser.png",
   },
   {
     name: "Raydium",
-    logo: "https://cryptologos.cc/logos/raydium-ray-logo.svg?v=030",
+    logo: "/ray.png",
   },
   {
     name: "Magic Eden",
-    logo: "https://seeklogo.com/images/M/magic-eden-logo-7DDBE168C2-seeklogo.com.png",
+    logo: "/med.png",
   },
   {
     name: "OpenSea",
-    logo: "https://cryptologos.cc/logos/opensea-opensea-logo.svg?v=030",
+    logo: "/os.png",
   },
 ];
 

@@ -151,7 +151,23 @@ const Header: React.FC = () => {
               <span className="text-lg font-black bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
                 Keginator
               </span>
-            </Link>
+            </Link><Link to="/" className="flex items-center space-x-2">
+  <motion.div
+    animate={{ rotate: 360 }}
+    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+    className="w-8 h-8 border border-cyan-500 rounded-lg overflow-hidden flex items-center justify-center"
+  >
+    <img
+      src="/logo.png"
+      alt="Keginator Logo"
+      className="w-full h-full object-cover"
+    />
+  </motion.div>
+  <span className="text-lg font-black bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+    Keginator
+  </span>
+</Link>
+
 
             {/* Right Side - GitHub, Theme, User */}
             <div className="flex items-center gap-1">

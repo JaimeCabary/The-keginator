@@ -16,10 +16,10 @@ const Footer: React.FC = () => {
             className="md:col-span-2"
           >
             <div className="flex items-center space-x-3 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-r from-cyan-700 to-purple-700 dark:from-cyan-500 dark:to-purple-500
- rounded-xl flex items-center justify-center">
-                <Cpu className="w-6 h-6 text-white" />
-              </div>
+         <div className="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center">
+  <img src="/logo.png" alt="Logo" className="w-full h-full object-cover" />
+</div>
+
               <span className="text-2xl font-black bg-gradient-to-r from-cyan-700 to-purple-700 dark:from-cyan-500 dark:to-purple-500 bg-clip-text text-transparent">
                 KEGINATOR
               </span>
