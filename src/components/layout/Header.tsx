@@ -66,7 +66,7 @@ const Header: React.FC = () => {
               href="https://github.com"
               whileHover={{ scale: 1.05, y: -1 }}
               whileTap={{ scale: 0.95 }}
-              className="p-3 rounded-xl bg-white/10 hover:bg-white/20 text-cyan-400 hover:text-cyan-300 border border-cyan-500/40 hover:border-cyan-400/60 transition-all duration-300 backdrop-blur-sm shadow-lg"
+              className="p-3 rounded-xl bg-white/10 backdrop-blur-md hover:bg-white/20 text-cyan-400 hover:text-cyan-300 border border-cyan-500/40 hover:border-cyan-400/60 transition-all duration-300  shadow-lg"
             >
               <Github className="w-5 h-5" />
             </motion.a>
@@ -122,7 +122,7 @@ const Header: React.FC = () => {
               <motion.button
                 whileHover={{ scale: 1.05, y: -1 }}
                 whileTap={{ scale: 0.95 }}
-                className="p-3 rounded-xl bg-white/10 hover:bg-white/20 text-cyan-400 hover:text-cyan-300 border border-cyan-500/40 hover:border-cyan-400/60 transition-all duration-300 backdrop-blur-sm shadow-lg"
+                className="p-3 rounded-xl bg-white/10  hover:bg-white/20 text-cyan-400 hover:text-cyan-300 border border-cyan-500/40 hover:border-cyan-400/60 transition-all duration-300 backdrop-blur-md shadow-lg"
               >
                 <User className="w-5 h-5" />
               </motion.button>
@@ -142,20 +142,9 @@ const Header: React.FC = () => {
             {/* Logo */}
             <Link to="/" className="flex items-center space-x-2">
               <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                className="w-8 h-8 border border-cyan-500 rounded-lg flex items-center justify-center"
-              >
-                <Sparkles className="w-4 h-4 text-cyan-400" />
-              </motion.div>
-              <span className="text-lg font-black bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-                Keginator
-              </span>
-            </Link><Link to="/" className="flex items-center space-x-2">
-  <motion.div
     animate={{ rotate: 360 }}
     transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-    className="w-8 h-8 border border-cyan-500 rounded-lg overflow-hidden flex items-center justify-center"
+    className="w-8 h-8 border border-cyan-500 backdrop-blur-md rounded-lg overflow-hidden flex items-center justify-center"
   >
     <img
       src="/logo.png"
@@ -163,10 +152,12 @@ const Header: React.FC = () => {
       className="w-full h-full object-cover"
     />
   </motion.div>
-  <span className="text-lg font-black bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-    Keginator
-  </span>
-</Link>
+
+              <span className="text-lg font-black bg-gradient-to-r from-cyan-700 to-purple-800 dark:from-cyan-400 dark:to-purple-400 bg-clip-text text-transparent">
+                Keginator
+              </span>
+            </Link>
+
 
 
             {/* Right Side - GitHub, Theme, User */}
@@ -175,7 +166,7 @@ const Header: React.FC = () => {
                 href="https://github.com"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                className="p-2 rounded-xl text-cyan-400 hover:text-cyan-300 hover:bg-white/10 transition-all duration-300"
+                className="p-2 rounded-xl text-cyan-800 dark:text-cyan-400 backdrop-blur-md hover:text-cyan-300 hover:bg-white/10 transition-all duration-300"
               >
                 <Github className="w-4 h-4" />
               </motion.a>
@@ -191,7 +182,7 @@ const Header: React.FC = () => {
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                className="p-2 rounded-xl text-cyan-400 hover:text-cyan-300 hover:bg-white/10 transition-all duration-300"
+                className="p-2 rounded-xl text-cyan-800 dark:text-cyan-400 backdrop-blur-md hover:text-cyan-300 hover:bg-white/10 transition-all duration-300"
               >
                 <User className="w-4 h-4" />
               </motion.button>
@@ -221,7 +212,7 @@ const Header: React.FC = () => {
                       whileTap={{ scale: 0.95 }}
                       className={`relative flex flex-col items-center p-2 rounded-xl transition-all duration-300 ${
                         isActive 
-                          ? 'text-cyan-400' 
+                          ? 'text-cyan-700' 
                           : 'text-cyan-200/90 hover:text-cyan-400'
                       }`}
                     >
