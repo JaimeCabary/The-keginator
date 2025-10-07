@@ -20,7 +20,11 @@ app = FastAPI(title="Keginator API", version="1.0.0")
 # CORS for React frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "https://keginator.vercel.app",
+        "http://localhost:3000",
+        "*"  # Remove in production
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
