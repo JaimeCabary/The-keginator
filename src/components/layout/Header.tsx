@@ -213,7 +213,7 @@ const Header: React.FC = () => {
                       className={`relative flex flex-col items-center p-2 rounded-xl transition-all duration-300 ${
                         isActive 
                           ? 'text-cyan-500' 
-                          : 'text-cyan-800/10 dark:text-cyan-200/90 hover:text-cyan-400'
+                          : 'text-cyan-800 dark:text-cyan-200/90 hover:text-cyan-400'
                       }`}
                     >
                       <Icon className="w-5 h-5 mb-1" />
