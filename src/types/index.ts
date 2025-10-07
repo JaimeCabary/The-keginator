@@ -20,7 +20,12 @@ export interface UploadResponse {
 export interface VerificationResponse {
   verified: boolean;
   hash: string;
-  timestamp?: string;
-  solanaTx?: string;
-  metadata?: any;
+  timestamp: string | null;  // ✅ Now allows null
+  solanaTx: string | null;   // ✅ Now allows null
+  metadata?: {
+    filename?: string;
+    size?: number;
+    rows?: number;
+    cleanedAt?: string;
+  } | null;  // ✅ Also make metadata nullable
 }

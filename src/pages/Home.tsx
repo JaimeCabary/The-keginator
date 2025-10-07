@@ -1,5 +1,5 @@
 // Home.tsx
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ArrowRight, Shield, Zap, Database, Rocket, 
@@ -11,14 +11,14 @@ import { Link } from 'react-router-dom';
 import Terminal from '../components/ui/Terminal';
 
 const Home: React.FC = () => {
-  const [isLoaded, setIsLoaded] = useState(false);
+  // const [isLoaded, setIsLoaded] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const gridRef = useRef<HTMLDivElement>(null);
 
 
-  useEffect(() => {
-    setIsLoaded(true);
-  }, []);
+  // useEffect(() => {
+  //   setIsLoaded(true);
+  // }, []);
   const companies = [
   {
     name: "Solana",

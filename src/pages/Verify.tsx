@@ -6,6 +6,7 @@ import { useApi } from '../hooks/useApi';
 import { VerificationResponse } from '../types';
 import { SOLANA_EXPLORER_URL } from '../utils/constants';
 import { useScrollToTop } from '../hooks/useScrollToTop';
+import { API_BASE_URL } from '../utils/constants';
 
 const Verify: React.FC = () => {
   const [hash, setHash] = useState('');
@@ -17,39 +18,65 @@ const Verify: React.FC = () => {
     
   useScrollToTop();
 
+  // const handleVerify = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   if (!hash.trim()) return;
+
+  //   setIsVerifying(true);
+  //   setVerificationResult(null);
+
+  //   try {
+  //     // For demo, using mock data. Replace with actual API call
+  //     const mockResult: VerificationResponse = {
+  //       verified: Math.random() > 0.3, // 70% chance of verification for demo
+  //       hash: hash,
+  //       timestamp: new Date().toISOString(),
+  //       solanaTx: '5g2X8h9j3k4l7m8n9b0v1c2x3z4a5s6d7f8g9h0j',
+  //       metadata: {
+  //         filename: 'dataset.csv',
+  //         size: 2457600,
+  //         rows: 1247,
+  //         cleanedAt: new Date().toISOString()
+  //       }
+  //     };
+      
+  //     setVerificationResult(mockResult);
+      
+  //     // Uncomment for real API call:
+  //     // const result = await verifyHash(hash);
+  //     // setVerificationResult(result);
+  //   } catch (err) {
+  //     console.error('Verification failed:', err);
+  //   } finally {
+  //     setIsVerifying(false);
+  //   }
+  // };
   const handleVerify = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!hash.trim()) return;
+  e.preventDefault();
+  if (!hash.trim()) return;
 
-    setIsVerifying(true);
-    setVerificationResult(null);
+  setIsVerifying(true);
+  setVerificationResult(null);
 
-    try {
-      // For demo, using mock data. Replace with actual API call
-      const mockResult: VerificationResponse = {
-        verified: Math.random() > 0.3, // 70% chance of verification for demo
-        hash: hash,
-        timestamp: new Date().toISOString(),
-        solanaTx: '5g2X8h9j3k4l7m8n9b0v1c2x3z4a5s6d7f8g9h0j',
-        metadata: {
-          filename: 'dataset.csv',
-          size: 2457600,
-          rows: 1247,
-          cleanedAt: new Date().toISOString()
-        }
-      };
-      
-      setVerificationResult(mockResult);
-      
-      // Uncomment for real API call:
-      // const result = await verifyHash(hash);
-      // setVerificationResult(result);
-    } catch (err) {
-      console.error('Verification failed:', err);
-    } finally {
-      setIsVerifying(false);
-    }
-  };
+  try {
+    const response = await fetch(`${API_BASE_URL}/verify/${hash}`);
+    const data = await response.json();
+    
+    const result: VerificationResponse = {
+      verified: data.exists_on_chain,
+      hash: data.dataset_hash,
+      timestamp: data.timestamp ? new Date(data.timestamp * 1000).toISOString() : null,
+      solanaTx: null, // Backend doesn't return this in verify
+      metadata: null
+    };
+    
+    setVerificationResult(result);
+  } catch (err) {
+    console.error('Verification failed:', err);
+  } finally {
+    setIsVerifying(false);
+  }
+};
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
