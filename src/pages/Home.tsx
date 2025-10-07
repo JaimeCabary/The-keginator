@@ -4,8 +4,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ArrowRight, Shield, Zap, Database, Rocket, 
   Upload, CheckCircle, Cpu, Globe, Lock, Play, 
-  Code, Cloud, GitBranch, Settings,  Wallet,
-  ShieldCheck
+  Code, Cloud, Settings,  Wallet,
+  ShieldCheck, Github
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Terminal from '../components/ui/Terminal';
@@ -335,7 +335,7 @@ const Home: React.FC = () => {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
             { name: 'VS Code', icon: <Code className="w-8 h-8" />, description: 'IDE Extension' },
-            { name: 'GitHub', icon: <GitBranch className="w-8 h-8" />, description: 'CI/CD Pipelines' },
+            { name: 'GitHub', icon: <Github className="w-8 h-8" />, description: 'CI/CD Pipelines' },
             { name: 'Docker', icon: <Settings className="w-8 h-8" />, description: 'Container Ready' },
             { name: 'AWS', icon: <Cloud className="w-8 h-8" />, description: 'Cloud Native' },
           ].map((tool, index) => (
