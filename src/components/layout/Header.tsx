@@ -166,7 +166,7 @@ const Header: React.FC = () => {
                 href="https://github.com"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                className="p-2 rounded-xl text-cyan-800 dark:text-cyan-400 backdrop-blur-md hover:text-cyan-300 hover:bg-white/10 transition-all duration-300"
+                className="p-2 rounded-xl text-cyan-800 dark:text-cyan-400 backdrop-blur-xl hover:text-cyan-300 hover:bg-white/10 transition-all duration-300"
               >
                 <Github className="w-4 h-4" />
               </motion.a>
@@ -182,7 +182,7 @@ const Header: React.FC = () => {
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                className="p-2 rounded-xl text-cyan-800 dark:text-cyan-400 backdrop-blur-md hover:text-cyan-300 hover:bg-white/10 transition-all duration-300"
+                className="p-2 rounded-xl text-cyan-800 dark:text-cyan-400 backdrop-blur-xl hover:text-cyan-300 hover:bg-white/10 transition-all duration-300"
               >
                 <User className="w-4 h-4" />
               </motion.button>
@@ -196,7 +196,7 @@ const Header: React.FC = () => {
         initial={{ y: 50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.1 }}
-        className="md:hidden fixed bottom-0 left-0 right-0 z-50"
+        className="md:hidden fixed bottom-0 backdrop-blur-xl left-0 right-0 z-50"
       >
         <div className="container mx-auto px-4 pb-3">
           <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-cyan-500/30 shadow-2xl p-2">
@@ -212,8 +212,8 @@ const Header: React.FC = () => {
                       whileTap={{ scale: 0.95 }}
                       className={`relative flex flex-col items-center p-2 rounded-xl transition-all duration-300 ${
                         isActive 
-                          ? 'text-cyan-700' 
-                          : 'text-cyan-200/90 hover:text-cyan-400'
+                          ? 'text-cyan-500' 
+                          : 'text-cyan-800/10 dark:text-cyan-200/90 hover:text-cyan-400'
                       }`}
                     >
                       <Icon className="w-5 h-5 mb-1" />
