@@ -5,6 +5,7 @@ import AnimatedCard from '../components/ui/AnimatedCard';
 import { useApi } from '../hooks/useApi';
 import { VerificationResponse } from '../types';
 import { SOLANA_EXPLORER_URL } from '../utils/constants';
+import { useScrollToTop } from '../hooks/useScrollToTop';
 
 const Verify: React.FC = () => {
   const [hash, setHash] = useState('');
@@ -12,6 +13,9 @@ const Verify: React.FC = () => {
   const [isVerifying, setIsVerifying] = useState(false);
   const [copied, setCopied] = useState(false);
   const { error } = useApi();
+
+    
+  useScrollToTop();
 
   const handleVerify = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -94,7 +98,7 @@ const Verify: React.FC = () => {
   const verificationInfo = verificationResult ? getVerificationMessage(verificationResult.verified) : null;
 
   return (
-    <div className="min-h-screen py-20 bg-grid-pattern bg-[length:50px_50px]">
+    <div className="min-h-screen py-20  bg-white dark:bg-black text-black dark:text-white">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

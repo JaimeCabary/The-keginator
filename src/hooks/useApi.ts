@@ -11,27 +11,34 @@ export const useApi = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const uploadDataset = async (file: File): Promise<UploadResponse> => {
-    setLoading(true);
-    setError(null);
+  const uploadDataset = async (file: File, userId: string = 'demo-user'): Promise<UploadResponse> => {
+  setLoading(true);
+  setError(null);
+  
+  try {
+    const formData = new FormData();
+    formData.append('file', file);
     
-    try {
-      const formData = new FormData();
-      formData.append('file', file);
-      
-      const response = await api.post('/upload', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-      
-      return response.data;
-    } catch (err: any) {
-      const errorMsg = err.response?.data?.detail || 'Upload failed';
-      setError(errorMsg);
-      throw new Error(errorMsg);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const response = await api.post(`/upload?user_id=${userId}&auto_commit=true`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    
+    return {
+      success: true,
+      hash: response.data.dataset_hash,
+      downloadUrl: `${API_BASE_URL}${response.data.download_url}`,
+      solanaTx: response.data.solana_signature,
+      filename: file.name
+    };
+  } catch (err: any) {
+    const errorMsg = err.response?.data?.detail || 'Upload failed';
+    setError(errorMsg);
+    throw new Error(errorMsg);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const commitToBlockchain = async (hash: string): Promise<{ tx: string }> => {
     setLoading(true);

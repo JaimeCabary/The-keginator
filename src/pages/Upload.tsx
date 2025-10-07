@@ -4,10 +4,13 @@ import { Download, ExternalLink, Copy, CheckCircle } from 'lucide-react';
 import FileUpload from '../components/ui/FileUpload';
 import { UploadResponse } from '../types';
 import { SOLANA_EXPLORER_URL } from '../utils/constants';
+import { useScrollToTop } from '../hooks/useScrollToTop';
 
 const Upload: React.FC = () => {
   const [uploadResult, setUploadResult] = useState<UploadResponse | null>(null);
   const [copied, setCopied] = useState(false);
+
+  useScrollToTop();
 
   const handleUploadComplete = (result: UploadResponse) => {
     setUploadResult(result);
@@ -27,7 +30,7 @@ const Upload: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen py-20 bg-grid-pattern bg-[length:50px_50px]">
+    <div className="min-h-screen  bg-white dark:bg-black text-black dark:text-white py-20">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -44,7 +47,10 @@ const Upload: React.FC = () => {
           </div>
 
           {/* File Upload Component */}
-          <FileUpload onUploadComplete={handleUploadComplete} />
+          <FileUpload 
+            onUploadComplete={handleUploadComplete}
+            userId="demo-user" // Or get from user auth
+          />
 
           {/* Results Panel */}
           <AnimatePresence>

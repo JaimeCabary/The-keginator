@@ -4,6 +4,7 @@ import { Search, Filter, Copy, CheckCircle, ExternalLink, Download, Calendar, Fi
 import AnimatedCard from '../components/ui/AnimatedCard';
 import { Dataset } from '../types';
 import { SOLANA_EXPLORER_URL } from '../utils/constants';
+import { useScrollToTop } from '../hooks/useScrollToTop';
 
 const History: React.FC = () => {
   const [datasets, setDatasets] = useState<Dataset[]>([]);
@@ -12,6 +13,8 @@ const History: React.FC = () => {
   const [copiedHash, setCopiedHash] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useScrollToTop();
 
   useEffect(() => {
     loadHistory();
@@ -131,7 +134,7 @@ const History: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen py-20 bg-grid-pattern bg-[length:50px_50px]">
+    <div className="min-h-screen  bg-white dark:bg-black text-black dark:text-white py-20">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -294,10 +297,10 @@ const History: React.FC = () => {
                             <motion.button
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
-                              className="px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg font-medium flex items-center space-x-2 transition-colors"
+                              className="px-4 py-2 bg-cyan-300 dark:bg-[#FFFFff] dark:text-[#000000] hover:bg-cyan-600 !text-[#000000] rounded-lg font-medium flex items-center space-x-2 transition-colors"
                             >
                               <Download className="w-4 h-4" />
-                              <span>Download</span>
+                              <span className='!text-[#000000]'>Download</span>
                             </motion.button>
                           </>
                         )}

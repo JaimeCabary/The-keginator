@@ -1,0 +1,8 @@
+day,temp,condition
+Monday,12.0,Sunny
+Tuesday,,
+Wednesday,15.0,Rain
+Thursday,,Cloudy
+Friday,21.0,Sunny
+Saturday,,Sunny
+Sunday,24.0,Sunny

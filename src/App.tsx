@@ -15,17 +15,25 @@ const App: React.FC = () => {
 
   return (
     <Router>
-      <div className="min-h-screen bg-white dark:bg-dark-100 transition-colors duration-300">
-        <Header />
+      {/* Apply dark theme to entire app and remove default margins/padding */}
+      <div className="min-h-screen overflow-x-hidden">
+        {/* Header positioned absolutely so content starts from top */}
+        <div className="fixed top-0 left-0 right-0 z-50">
+          <Header />
+        </div>
         
-        <AnimatePresence mode="wait">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/upload" element={<Upload />} />
-            <Route path="/history" element={<History />} />
-            <Route path="/verify" element={<Verify />} />
-          </Routes>
-        </AnimatePresence>
+        {/* Main content with padding to account for fixed header */}
+        <main className="pt-20"> {/* Adjust this value based on your header height */}
+          <AnimatePresence mode="wait">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/upload" element={<Upload />} />
+              <Route path="/history" element={<History />} />
+              <Route path="/verify" element={<Verify />} />
+            </Routes>
+          </AnimatePresence>
+        </main>
+        
         <Footer />
       </div>
     </Router>

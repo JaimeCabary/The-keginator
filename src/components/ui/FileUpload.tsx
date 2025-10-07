@@ -6,6 +6,7 @@ import { UploadResponse } from '../../types';
 
 interface FileUploadProps {
   onUploadComplete: (response: UploadResponse) => void;
+  userId?: string;
 }
 
 const FileUpload: React.FC<FileUploadProps> = ({ onUploadComplete }) => {
