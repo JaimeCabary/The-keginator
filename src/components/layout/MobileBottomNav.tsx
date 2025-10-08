@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
-import { Sparkles, Upload, History, CheckCircle, Info } from 'lucide-react';
+import { Sparkles, Upload, History, CheckCircle, MoreHorizontal } from 'lucide-react';
 
 const MobileBottomNav: React.FC = () => {
   const location = useLocation();
@@ -11,7 +11,7 @@ const MobileBottomNav: React.FC = () => {
     { path: '/upload', label: 'Upload', icon: Upload },
     { path: '/history', label: 'History', icon: History },
     { path: '/verify', label: 'Verify', icon: CheckCircle },
-    { path: '/info', label: 'More', icon: Info },
+    { path: '/info', label: 'More', icon: MoreHorizontal },
   ];
 
   return (
@@ -19,7 +19,7 @@ const MobileBottomNav: React.FC = () => {
       initial={{ y: 50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ delay: 0.1 }}
-      className="md:hidden fixed bottom-0 backdrop-blur-xl left-0 right-0 z-50"
+      className="md:hidden fixed bottom-0 left-0 right-0 z-50 backdrop-blur-xl safe-bottom"
     >
       <div className="container mx-auto px-4 pb-3">
         <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-cyan-500/30 shadow-2xl p-2">

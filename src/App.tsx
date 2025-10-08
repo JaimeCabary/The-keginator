@@ -6,6 +6,7 @@ import MobileBottomNav from './components/layout/MobileBottomNav';
 import Footer from './components/layout/Footer';
 import Home from './pages/Home';
 import Upload from './pages/Upload';
+import Settings from './pages/Settings';
 import History from './pages/History';
 import Verify from './pages/Verify';
 import Auth from './pages/Auth';
@@ -38,6 +39,7 @@ const App: React.FC = () => {
               <Route path="/auth" element={<Auth />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/pricing" element={<Pricing />} />
+              <Route path="/settings" element={<Settings />} />
               {/* Info route only for mobile - acts as mobile footer */}
               <Route path="/info" element={
                 <div className="md:hidden">

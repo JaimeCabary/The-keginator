@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Github, Sparkles, Upload, History, CheckCircle, User, LogIn } from 'lucide-react';
+import { Settings, Sparkles, Upload, History, CheckCircle, User, LogIn } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ThemeToggle from '../ui/ThemeToggle';
 
@@ -71,14 +71,17 @@ const Header: React.FC = () => {
         <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             {/* Left Side - GitHub Button */}
-            <motion.a
-              href="https://github.com"
+            <motion.div
               whileHover={{ scale: 1.05, y: -1 }}
               whileTap={{ scale: 0.95 }}
-              className="p-3 rounded-xl bg-white/10 backdrop-blur-md hover:bg-white/20 text-cyan-400 hover:text-cyan-300 border border-cyan-500/40 hover:border-cyan-400/60 transition-all duration-300  shadow-lg"
             >
-              <Github className="w-5 h-5" />
-            </motion.a>
+              <Link
+                to="/settings"
+                className="p-3 rounded-xl bg-white/10 backdrop-blur-md hover:bg-white/20 text-cyan-400 hover:text-cyan-300 border border-cyan-500/40 hover:border-cyan-400/60 transition-all duration-300 shadow-lg flex items-center justify-center"
+              >
+                <Settings className="w-5 h-5" />
+              </Link>
+            </motion.div>
 
             {/* Centered Navigation Island */}
             <motion.nav 
@@ -185,14 +188,17 @@ const Header: React.FC = () => {
 
             {/* Right Side - GitHub, Theme, User */}
             <div className="flex items-center gap-1">
-              <motion.a
-                href="https://github.com"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                className="p-2 rounded-xl text-cyan-800 dark:text-cyan-400 backdrop-blur-xl hover:text-cyan-300 hover:bg-white/10 transition-all duration-300"
+              <motion.div
+                whileHover={{ scale: 1.05, y: -1 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <Github className="w-4 h-4" />
-              </motion.a>
+                <Link
+                  to="/settings"
+                  className="p-3 rounded-xl bg-white/10 backdrop-blur-md hover:bg-white/20 text-cyan-400 hover:text-cyan-300 border border-cyan-500/40 hover:border-cyan-400/60 transition-all duration-300 shadow-lg flex items-center justify-center"
+                >
+                  <Settings className="w-5 h-5" />
+                </Link>
+              </motion.div>
 
               <motion.div
                 whileHover={{ scale: 1.1 }}

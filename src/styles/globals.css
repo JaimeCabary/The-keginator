@@ -344,3 +344,7 @@ a {
 .bg-red-500 {
   @apply bg-red-600 dark:bg-red-400;
 }
+
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}

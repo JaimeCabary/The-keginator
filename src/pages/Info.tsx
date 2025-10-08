@@ -1,9 +1,16 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Github, Twitter, Mail, Heart, Cpu, Shield } from 'lucide-react';
+import { Github, Twitter, Mail, Heart, Cpu, Shield, LogOut } from 'lucide-react';
+import { useNavigate,  } from 'react-router-dom';
 
 const Info: React.FC = () => {
   const currentYear = new Date().getFullYear();
+  const navigate = useNavigate();
+    const handleLogout = () => {
+    localStorage.removeItem('auth_token');
+    localStorage.removeItem('user');
+    navigate('/');
+  };
 
   return (
     <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white pb-32 pt-8"> 
@@ -112,6 +119,28 @@ const Info: React.FC = () => {
                 {item}
               </motion.a>
             ))}
+          </div>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="mb-12"
+        >
+          <h3 className="font-bold text-red-700 dark:text-red-400 text-xl mb-6 flex items-center justify-center space-x-2">
+            <LogOut className="w-6 h-6" />
+            <span>LOGOUT</span>
+          </h3>
+          <div className="grid grid-cols-2 gap-3 max-w-md mx-auto">
+            <motion.button
+                        onClick={handleLogout}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="mt-4 md:mt-0 px-6 py-2 border border-red-500 text-red-500 rounded-lg hover:bg-red-500/10 flex items-center space-x-2"
+                      >
+                        <LogOut className="w-4 h-4" />
+                        <span>Logout</span>
+                      </motion.button>
           </div>
         </motion.div>
 
