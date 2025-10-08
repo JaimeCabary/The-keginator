@@ -695,7 +695,7 @@ const Home: React.FC = () => {
       <PricingPreview />
 
       {/* Final CTA Section */}
-      <section className="relative py-20">
+      <section className="relative py-20 mb-20 md:mb-20">
         <div className="container mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 50 }}

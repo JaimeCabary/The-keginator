@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Github, Sparkles, Upload, History, CheckCircle, User } from 'lucide-react';
+import { Github, Sparkles, Upload, History, CheckCircle, User, Info } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import ThemeToggle from '../ui/ThemeToggle';
 
@@ -13,6 +13,7 @@ const Header: React.FC = () => {
     { path: '/upload', label: 'Upload', icon: Upload },
     { path: '/history', label: 'History', icon: History },
     { path: '/verify', label: 'Verify', icon: CheckCircle },
+    { path: '/info', label: 'More', icon: Info },
   ];
 
   // const toggleMobileMenu = () => {

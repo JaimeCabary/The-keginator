@@ -9,6 +9,7 @@ import History from './pages/History';
 import Verify from './pages/Verify';
 import { useTheme } from './hooks/useTheme';
 import './styles/globals.css';
+import Info from './pages/Info';
 
 const App: React.FC = () => {
   useTheme(); // Initialize theme
@@ -30,6 +31,7 @@ const App: React.FC = () => {
               <Route path="/upload" element={<Upload />} />
               <Route path="/history" element={<History />} />
               <Route path="/verify" element={<Verify />} />
+              <Route path="/info" element={<Info />} />
             </Routes>
           </AnimatePresence>
         </main>
