@@ -14,6 +14,7 @@ const Home: React.FC = () => {
   // const [isLoaded, setIsLoaded] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const gridRef = useRef<HTMLDivElement>(null);
+  const terminalRef = useRef<HTMLDivElement>(null);
 
 
   // useEffect(() => {
@@ -555,6 +556,7 @@ const Home: React.FC = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="px-8 py-3 border border-blue-600 dark:border-blue-400 rounded-lg font-bold text-sm flex items-center space-x-2 transition-all duration-300 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20"
+              onClick={() => terminalRef.current?.scrollIntoView({ behavior: 'smooth' })}
             >
               <Play className="w-4 h-4" />
               <span>WATCH DEMO</span>
@@ -665,7 +667,7 @@ const Home: React.FC = () => {
       <UseCasesSection />
 
       {/* Terminal Demo Section */}
-      <section className="relative py-20">
+      <section ref={terminalRef} className="relative py-20">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0 }}

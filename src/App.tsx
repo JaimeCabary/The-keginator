@@ -2,14 +2,18 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Header from './components/layout/Header';
+import MobileBottomNav from './components/layout/MobileBottomNav';
 import Footer from './components/layout/Footer';
 import Home from './pages/Home';
 import Upload from './pages/Upload';
 import History from './pages/History';
 import Verify from './pages/Verify';
+import Auth from './pages/Auth';
+import Dashboard from './pages/Dashboard';
+import Pricing from './pages/Pricing';
+import Info from './pages/Info';
 import { useTheme } from './hooks/useTheme';
 import './styles/globals.css';
-import Info from './pages/Info';
 
 const App: React.FC = () => {
   useTheme(); // Initialize theme
@@ -23,23 +27,41 @@ const App: React.FC = () => {
           <Header />
         </div>
         
-        {/* Main content with padding to account for fixed header */}
-        <main className="pt-20"> {/* Adjust this value based on your header height */}
+        {/* Main content with padding to account for fixed header and mobile bottom nav */}
+        <main className="pt-20 pb-20 md:pb-0"> {/* Added bottom padding for mobile nav */}
           <AnimatePresence mode="wait">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/upload" element={<Upload />} />
               <Route path="/history" element={<History />} />
               <Route path="/verify" element={<Verify />} />
-              <Route path="/info" element={<Info />} />
+              <Route path="/auth" element={<Auth />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/pricing" element={<Pricing />} />
+              {/* Info route only for mobile - acts as mobile footer */}
+              <Route path="/info" element={
+                <div className="md:hidden">
+                  <Info />
+                </div>
+              } />
             </Routes>
           </AnimatePresence>
         </main>
         
-        <Footer />
+        {/* Mobile Bottom Navigation - only on mobile */}
+        <div className="md:hidden">
+          <MobileBottomNav />
+        </div>
+        
+        {/* Footer only for desktop */}
+        <div className="hidden md:block">
+          <Footer />
+        </div>
       </div>
     </Router>
   );
 };
 
 export default App;
+
+

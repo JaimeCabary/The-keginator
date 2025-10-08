@@ -30,7 +30,7 @@ const Upload: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen  bg-white dark:bg-black text-black dark:text-white py-20">
+    <div className="min-h-screen  bg-white dark:bg-black text-black dark:text-white py-20 mb-20 md:mb-20">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

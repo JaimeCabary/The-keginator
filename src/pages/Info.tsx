@@ -6,7 +6,7 @@ const Info: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white pb-28 pt-8">
+    <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white pb-32 pt-8"> 
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div

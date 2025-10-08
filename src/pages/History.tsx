@@ -5,6 +5,7 @@ import AnimatedCard from '../components/ui/AnimatedCard';
 import { Dataset } from '../types';
 import { SOLANA_EXPLORER_URL } from '../utils/constants';
 import { useScrollToTop } from '../hooks/useScrollToTop';
+import { API_BASE_URL } from '../utils/constants';
 
 const History: React.FC = () => {
   const [datasets, setDatasets] = useState<Dataset[]>([]);
@@ -21,61 +22,38 @@ const History: React.FC = () => {
   }, []);
 
   const loadHistory = async () => {
-    setLoading(true);
-    setError(null);
+  setLoading(true);
+  setError(null);
+  
+  try {
+    // Get user ID from localStorage or use demo
+    const user = JSON.parse(localStorage.getItem('user') || '{"id":"demo-user"}');
+    const userId = user.id || 'demo-user';
     
-    try {
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      const mockData: Dataset[] = [
-        {
-          id: '1',
-          filename: 'sales_data.csv',
-          originalSize: 2457600,
-          cleanedSize: 2048576,
-          hash: '7x8a2b9f4c1e6d3a5f9e3c1b8a2d4f7e6',
-          timestamp: '2024-01-15T14:30:00Z',
-          solanaTx: '5g2X8h9j3k4l7m8n9b0v1c2x3z4a5s6d7f8g9h0j',
-          status: 'completed'
-        },
-        {
-          id: '2',
-          filename: 'customer_data.json',
-          originalSize: 1876543,
-          cleanedSize: 1654321,
-          hash: '9b3c8a2d4f7e6c1a5f9e3c1b8a2d4f7e',
-          timestamp: '2024-01-14T11:20:00Z',
-          solanaTx: '3k4l7m8n9b0v1c2x3z4a5s6d7f8g9h0j',
-          status: 'completed'
-        },
-        {
-          id: '3',
-          filename: 'inventory_data.csv',
-          originalSize: 3456789,
-          cleanedSize: 0,
-          hash: '',
-          timestamp: '2024-01-15T16:45:00Z',
-          status: 'processing'
-        },
-        {
-          id: '4',
-          filename: 'failed_import.txt',
-          originalSize: 123456,
-          cleanedSize: 0,
-          hash: '',
-          timestamp: '2024-01-13T09:15:00Z',
-          status: 'failed'
-        }
-      ];
-      setDatasets(mockData);
-    } catch (err) {
-      setError('Failed to load history');
-      console.error('Failed to load history:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
+    // REAL API CALL
+    const response = await fetch(`${API_BASE_URL}/history/${userId}`);
+    const data = await response.json();
+    
+    // Transform to match Dataset type
+    const transformedData: Dataset[] = data.datasets.map((d: any) => ({
+      id: d.id,
+      filename: d.filename,
+      originalSize: d.originalSize,
+      cleanedSize: d.cleanedSize,
+      hash: d.hash,
+      timestamp: d.timestamp,
+      solanaTx: d.solanaTx,
+      status: d.status as 'completed' | 'processing' | 'failed'
+    }));
+    
+    setDatasets(transformedData);
+  } catch (err) {
+    setError('Failed to load history');
+    console.error('Failed to load history:', err);
+  } finally {
+    setLoading(false);
+  }
+};
 
   const copyToClipboard = (hash: string) => {
     navigator.clipboard.writeText(hash);
@@ -134,7 +112,7 @@ const History: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen  bg-white dark:bg-black text-black dark:text-white py-20">
+    <div className="min-h-screen  bg-white dark:bg-black text-black dark:text-white py-20 mb-20 md:mb-20">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

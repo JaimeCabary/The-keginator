@@ -1,24 +1,32 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Github, Sparkles, Upload, History, CheckCircle, User, Info } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { Github, Sparkles, Upload, History, CheckCircle, User, LogIn } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ThemeToggle from '../ui/ThemeToggle';
 
 const Header: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Check if user is authenticated
+  const isAuthenticated = !!localStorage.getItem('auth_token');
+  // const userData = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!) : null;
 
   const navItems = [
     { path: '/', label: 'Home', icon: Sparkles },
     { path: '/upload', label: 'Upload', icon: Upload },
     { path: '/history', label: 'History', icon: History },
     { path: '/verify', label: 'Verify', icon: CheckCircle },
-    { path: '/info', label: 'More', icon: Info },
   ];
 
-  // const toggleMobileMenu = () => {
-  //   setIsMobileMenuOpen(!isMobileMenuOpen);
-  // };
+  const handleUserClick = () => {
+    if (isAuthenticated) {
+      navigate('/dashboard');
+    } else {
+      navigate('/auth');
+    }
+  };
 
   const mobileMenuVariants = {
     closed: {
@@ -119,13 +127,29 @@ const Header: React.FC = () => {
                 <ThemeToggle />
               </motion.div>
               
-              {/* User Avatar */}
+              {/* User Avatar - Shows different icon based on auth status */}
               <motion.button
+                onClick={handleUserClick}
                 whileHover={{ scale: 1.05, y: -1 }}
                 whileTap={{ scale: 0.95 }}
-                className="p-3 rounded-xl bg-white/10  hover:bg-white/20 text-cyan-400 hover:text-cyan-300 border border-cyan-500/40 hover:border-cyan-400/60 transition-all duration-300 backdrop-blur-md shadow-lg"
+                className="p-3 rounded-xl bg-white/10  hover:bg-white/20 text-cyan-400 hover:text-cyan-300 border border-cyan-500/40 hover:border-cyan-400/60 transition-all duration-300 backdrop-blur-md shadow-lg relative group"
+                title={isAuthenticated ? 'Dashboard' : 'Sign In'}
               >
-                <User className="w-5 h-5" />
+                {isAuthenticated ? (
+                  <User className="w-5 h-5" />
+                ) : (
+                  <LogIn className="w-5 h-5" />
+                )}
+                
+                {/* Tooltip */}
+                <div className="absolute -bottom-10 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
+                  {isAuthenticated ? 'Dashboard' : 'Sign In'}
+                </div>
+                
+                {/* Online indicator for authenticated users */}
+                {isAuthenticated && (
+                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white dark:border-gray-900"></div>
+                )}
               </motion.button>
             </div>
           </div>
@@ -143,23 +167,21 @@ const Header: React.FC = () => {
             {/* Logo */}
             <Link to="/" className="flex items-center space-x-2">
               <motion.div
-    animate={{ rotate: 360 }}
-    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-    className="w-8 h-8 border border-cyan-500 backdrop-blur-md rounded-lg overflow-hidden flex items-center justify-center"
-  >
-    <img
-      src="/logo.png"
-      alt="Keginator Logo"
-      className="w-full h-full object-cover"
-    />
-  </motion.div>
+                animate={{ rotate: 360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                className="w-8 h-8 border border-cyan-500 backdrop-blur-md rounded-lg overflow-hidden flex items-center justify-center"
+              >
+                <img
+                  src="/logo.png"
+                  alt="Keginator Logo"
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
 
               <span className="text-lg font-black bg-gradient-to-r from-cyan-700 to-purple-800 dark:from-cyan-400 dark:to-purple-400 bg-clip-text text-transparent">
                 Keginator
               </span>
             </Link>
-
-
 
             {/* Right Side - GitHub, Theme, User */}
             <div className="flex items-center gap-1">
@@ -181,61 +203,27 @@ const Header: React.FC = () => {
               </motion.div>
 
               <motion.button
+                onClick={handleUserClick}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                className="p-2 rounded-xl text-cyan-800 dark:text-cyan-400 backdrop-blur-xl hover:text-cyan-300 hover:bg-white/10 transition-all duration-300"
+                className="p-2 rounded-xl text-cyan-800 dark:text-cyan-400 backdrop-blur-xl hover:text-cyan-300 hover:bg-white/10 transition-all duration-300 relative"
+                title={isAuthenticated ? 'Dashboard' : 'Sign In'}
               >
-                <User className="w-4 h-4" />
+                {isAuthenticated ? (
+                  <User className="w-4 h-4" />
+                ) : (
+                  <LogIn className="w-4 h-4" />
+                )}
+                
+                {/* Online indicator for authenticated users */}
+                {isAuthenticated && (
+                  <div className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-green-500 rounded-full border border-white dark:border-gray-900"></div>
+                )}
               </motion.button>
             </div>
           </div>
         </div>
       </motion.div>
-
-      {/* Mobile Bottom Navigation */}
-      <motion.nav
-        initial={{ y: 50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.1 }}
-        className="md:hidden fixed bottom-0 backdrop-blur-xl left-0 right-0 z-50"
-      >
-        <div className="container mx-auto px-4 pb-3">
-          <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-cyan-500/30 shadow-2xl p-2">
-            <div className="flex items-center justify-around">
-              {navItems.map((item) => {
-                const Icon = item.icon;
-                const isActive = location.pathname === item.path;
-                
-                return (
-                  <Link key={item.path} to={item.path} className="flex-1">
-                    <motion.div
-                      whileHover={{ scale: 1.05, y: -2 }}
-                      whileTap={{ scale: 0.95 }}
-                      className={`relative flex flex-col items-center p-2 rounded-xl transition-all duration-300 ${
-                        isActive 
-                          ? 'text-cyan-500' 
-                          : 'text-cyan-800 dark:text-cyan-200/90 hover:text-cyan-400'
-                      }`}
-                    >
-                      <Icon className="w-5 h-5 mb-1" />
-                      <span className="text-xs font-semibold">{item.label}</span>
-                      
-                      {/* Active indicator dot */}
-                      {isActive && (
-                        <motion.div
-                          layoutId="mobileActive"
-                          className="absolute -top-1 w-1.5 h-1.5 bg-cyan-400 rounded-full"
-                          transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                        />
-                      )}
-                    </motion.div>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </motion.nav>
 
       {/* Mobile Menu Overlay (for future use) */}
       <AnimatePresence>
@@ -286,6 +274,36 @@ const Header: React.FC = () => {
                         </motion.div>
                       );
                     })}
+                    
+                    {/* Auth button in mobile menu */}
+                    <motion.div
+                      initial="closed"
+                      animate="open"
+                      variants={menuItemVariants}
+                      transition={{ delay: navItems.length * 0.1 }}
+                    >
+                      <motion.button
+                        onClick={() => {
+                          handleUserClick();
+                          setIsMobileMenuOpen(false);
+                        }}
+                        whileHover={{ x: 10, scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="w-full px-4 py-3 rounded-xl font-medium flex items-center space-x-3 transition-all duration-300 relative overflow-hidden bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30"
+                      >
+                        {isAuthenticated ? (
+                          <>
+                            <User className="w-5 h-5 relative z-10" />
+                            <span className="font-semibold relative z-10">Dashboard</span>
+                          </>
+                        ) : (
+                          <>
+                            <LogIn className="w-5 h-5 relative z-10" />
+                            <span className="font-semibold relative z-10">Sign In</span>
+                          </>
+                        )}
+                      </motion.button>
+                    </motion.div>
                   </div>
                 </div>
               </div>

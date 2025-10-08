@@ -125,7 +125,7 @@ const Verify: React.FC = () => {
   const verificationInfo = verificationResult ? getVerificationMessage(verificationResult.verified) : null;
 
   return (
-    <div className="min-h-screen py-20  bg-white dark:bg-black text-black dark:text-white">
+    <div className="min-h-screen py-20  bg-white dark:bg-black text-black dark:text-white mb-20 md:mb-20">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
