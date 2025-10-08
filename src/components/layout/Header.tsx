@@ -82,7 +82,7 @@ const Header: React.FC = () => {
 
             {/* Centered Navigation Island */}
             <motion.nav 
-              className="flex items-center gap-1 bg-white/10 backdrop-blur-md rounded-2xl border border-cyan-500/30 p-1 shadow-xl"
+              className="flex items-center gap-1 bg-white/70 backdrop-blur-md rounded-2xl border border-cyan-500/30 p-1 shadow-xl"
               whileHover={{ scale: 1.02 }}
               transition={{ type: "spring", stiffness: 300 }}
             >

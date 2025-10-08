@@ -105,19 +105,19 @@ const Terminal: React.FC<TerminalProps> = ({
   }, [isRunning, currentLine, terminalLines, onCommandComplete]);
 
   const getLineStyle = (line: string) => {
-    if (line.startsWith('$')) return 'text-cyan-400 font-bold';
-    if (line.startsWith('>>>')) return 'text-purple-400';
-    if (line.startsWith('[INFO]')) return 'text-blue-400';
-    if (line.startsWith('[SCAN]')) return 'text-yellow-400';
-    if (line.startsWith('[CLEAN]')) return 'text-green-400';
-    if (line.startsWith('[VALIDATE]')) return 'text-emerald-400';
-    if (line.startsWith('[BLOCKCHAIN]')) return 'text-orange-400';
-    if (line.startsWith('✓') || line.includes('✓')) return 'text-green-400';
-    if (line.startsWith('  ├─') || line.startsWith('  └─')) return 'text-gray-500 dark:text-gray-500';
-    if (line.startsWith('  •')) return 'text-cyan-300 dark:text-cyan-400';
-    if (line.startsWith('━')) return 'text-gray-600 dark:text-gray-600';
-    if (line.startsWith('📊') || line.startsWith('🔗') || line.startsWith('🎉')) return 'text-white font-semibold';
-    return 'text-gray-300 dark:text-gray-400';
+    if (line.startsWith('$')) return 'text-cyan-800 dark:text-cyan-400 font-bold';
+    if (line.startsWith('>>>')) return 'text-purple-800 dark:text-purple-400';
+    if (line.startsWith('[INFO]')) return 'text-blue-800 dark:text-blue-400';
+    if (line.startsWith('[SCAN]')) return 'text-yellow-800 dark:text-yellow-400';
+    if (line.startsWith('[CLEAN]')) return 'text-green-800 dark:text-green-400';
+    if (line.startsWith('[VALIDATE]')) return 'text-emerald-800 dark:text-emerald-400';
+    if (line.startsWith('[BLOCKCHAIN]')) return 'text-orange-700 dark:text-orange-400';
+    if (line.startsWith('✓') || line.includes('✓')) return 'text-green-800 dark:text-green-400';
+    if (line.startsWith('  ├─') || line.startsWith('  └─')) return 'text-gray-900 dark:text-gray-500';
+    if (line.startsWith('  •')) return 'text-cyan-900 dark:text-cyan-400';
+    if (line.startsWith('━')) return 'text-gray-900 dark:text-gray-600';
+    if (line.startsWith('📊') || line.startsWith('🔗') || line.startsWith('🎉')) return 'text-black dark:text-white font-semibold';
+    return 'text-gray-900 dark:text-gray-400';
   };
 
   return (
@@ -125,7 +125,12 @@ const Terminal: React.FC<TerminalProps> = ({
       ref={terminalRef}
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className={`relative ${isMaximized ? 'fixed inset-4 z-50' : 'max-w-4xl mx-auto'}`}
+      className={`relative transition-all duration-300 ease-in-out ${
+  isMaximized
+    ? 'fixed inset-0 z-50 w-screen h-screen flex items-center justify-center bg-black/50 backdrop-blur-md p-4'
+    : 'max-w-4xl mx-auto'
+}`}
+
     >
       {/* Terminal Window */}
       <div className="bg-[#ffffff] dark:bg-black rounded-lg shadow-2xl border border-gray-500 dark:border-cyan-500/30 overflow-hidden">
@@ -170,20 +175,20 @@ const Terminal: React.FC<TerminalProps> = ({
               className="p-1.5 rounded hover:bg-cyan-500/20 transition-colors group"
             >
               {isMaximized ? (
-                <Minimize2 className="w-4 h-4 text-cyan-400 group-hover:text-cyan-300" />
+                <Minimize2 className="w-4 h-4 text-cyan-700 dark:text-cyan-400 group-hover:text-cyan-300" />
               ) : (
-                <Maximize2 className="w-4 h-4 text-cyan-400 group-hover:text-cyan-300" />
+                <Maximize2 className="w-4 h-4 text-cyan-700 dark:text-cyan-400 group-hover:text-cyan-300" />
               )}
             </motion.button>
           </div>
         </div>
 
         {/* Terminal Content */}
-        <div className={`font-mono text-sm ${isMaximized ? 'h-[calc(100vh-8rem)]' : 'h-96'} overflow-y-auto p-4 bg-black/10 dark:bg-black custom-scrollbar`}>
+        <div className={`font-mono text-sm ${isMaximized ? 'h-[calc(100vh-8rem)]' : 'h-96'} overflow-y-auto p-4 bg-[#ffffff] dark:bg-black custom-scrollbar`}>
           {/* System Info Banner */}
           <div className="mb-4 pb-4 border-b border-gray-800">
-            <div className="text-cyan-400 mb-1">Keginator Data Cleaner v2.1.0</div>
-            <div className="text-gray-500 text-xs">Python 3.11.5 | Solana Integration Active</div>
+            <div className="text-cyan-700 dark:text-cyan-400 mb-1">Keginator Data Cleaner v2.1.0</div>
+            <div className=" text-gray-900 dark:text-gray-500 text-xs">Python 3.11.5 | Solana Integration Active</div>
           </div>
 
           <AnimatePresence>
@@ -205,7 +210,7 @@ const Terminal: React.FC<TerminalProps> = ({
             <motion.span
               animate={{ opacity: [1, 0] }}
               transition={{ duration: 0.7, repeat: Infinity }}
-              className="inline-block w-2 h-4 bg-cyan-400 ml-1"
+              className="inline-block w-2 h-4 bg-cyan-700 dark:bg-cyan-400 ml-1"
             />
           )}
 
