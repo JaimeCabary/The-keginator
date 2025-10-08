@@ -49,15 +49,18 @@ const App: React.FC = () => {
         </main>
         
         {/* Mobile Bottom Navigation - only on mobile */}
-        <div className="md:hidden">
+        {/* <div className="md:hidden">
           <MobileBottomNav />
-        </div>
+        </div> */}
         
         {/* Footer only for desktop */}
         <div className="hidden md:block">
           <Footer />
         </div>
       </div>
+      <div className="md:hidden">
+          <MobileBottomNav />
+        </div>
     </Router>
   );
 };

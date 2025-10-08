@@ -1,5 +1,6 @@
-# auth.py
-from fastapi import APIRouter, HTTPException, Depends
+# auth.py - Complete with Google OAuth
+from fastapi import APIRouter, HTTPException, Depends, Request
+from fastapi.responses import RedirectResponse
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import jwt
 import bcrypt
@@ -8,7 +9,8 @@ import os
 from pydantic import BaseModel
 from typing import Optional
 import uuid
-
+from authlib.integrations.starlette_client import OAuth
+import httpx
 
 # Router for auth endpoints
 router = APIRouter(prefix="/auth", tags=["authentication"])
@@ -17,6 +19,23 @@ router = APIRouter(prefix="/auth", tags=["authentication"])
 security = HTTPBearer()
 JWT_SECRET = os.getenv("JWT_SECRET", "your-secret-key-change-in-production")
 JWT_ALGORITHM = "HS256"
+
+# Google OAuth Configuration
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", "")
+GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET", "")
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000")
+
+# Initialize OAuth
+oauth = OAuth()
+oauth.register(
+    name='google',
+    client_id=GOOGLE_CLIENT_ID,
+    client_secret=GOOGLE_CLIENT_SECRET,
+    server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
+    client_kwargs={
+        'scope': 'openid email profile'
+    }
+)
 
 # Pydantic models
 class UserSignup(BaseModel):
@@ -170,11 +189,88 @@ async def get_current_user_info(current_user: dict = Depends(get_current_user)):
         }
     }
 
+# Google OAuth Routes
 @router.get("/google")
-async def google_auth():
-    # This would redirect to Google OAuth
-    # For now, return a mock response
-    return {"message": "Google OAuth would redirect here"}
+async def google_login(request: Request):
+    """Initiate Google OAuth flow"""
+    redirect_uri = request.url_for('google_callback')
+    return await oauth.google.authorize_redirect(request, redirect_uri)
+
+@router.get("/google/callback")
+async def google_callback(request: Request):
+    """Handle Google OAuth callback"""
+    try:
+        # Get token from Google
+        token = await oauth.google.authorize_access_token(request)
+        
+        # Get user info from Google
+        user_info = token.get('userinfo')
+        if not user_info:
+            # Fallback: fetch user info manually
+            async with httpx.AsyncClient() as client:
+                response = await client.get(
+                    'https://www.googleapis.com/oauth2/v2/userinfo',
+                    headers={'Authorization': f"Bearer {token['access_token']}"}
+                )
+                user_info = response.json()
+        
+        email = user_info['email']
+        name = user_info.get('name', email.split('@')[0])
+        
+        # Check if user exists
+        existing_user = None
+        for user_id, user in users_db.items():
+            if user["email"] == email:
+                existing_user = user
+                break
+        
+        if existing_user:
+            # User exists, log them in
+            user_id = existing_user["id"]
+        else:
+            # Create new user
+            user_id = str(uuid.uuid4())
+            users_db[user_id] = {
+                "id": user_id,
+                "name": name,
+                "email": email,
+                "password": "",  # No password for OAuth users
+                "plan": "free",
+                "joined_date": datetime.utcnow().isoformat(),
+                "newsletter_subscribed": False
+            }
+            
+            user_stats[user_id] = {
+                "datasets_processed": 0,
+                "total_storage_used": 0
+            }
+        
+        # Create JWT token
+        jwt_token = create_token(user_id, email)
+        
+        # Redirect to frontend with token
+        stats = user_stats.get(user_id, {"datasets_processed": 0, "total_storage_used": 0})
+        user_data = {
+            "id": user_id,
+            "name": name,
+            "email": email,
+            "plan": users_db[user_id]["plan"],
+            "joined_date": users_db[user_id]["joined_date"],
+            "datasets_processed": stats["datasets_processed"],
+            "total_storage_used": stats["total_storage_used"],
+            "newsletter_subscribed": users_db[user_id]["newsletter_subscribed"]
+        }
+        
+        import urllib.parse
+        user_json = urllib.parse.quote(str(user_data).replace("'", '"'))
+        
+        return RedirectResponse(
+            url=f"{FRONTEND_URL}/auth?token={jwt_token}&user={user_json}"
+        )
+        
+    except Exception as e:
+        print(f"Google OAuth error: {e}")
+        return RedirectResponse(url=f"{FRONTEND_URL}/auth?error=oauth_failed")
 
 # Helper function to update user stats (to be called from main.py)
 def update_user_stats(user_id: str, dataset_size: int):

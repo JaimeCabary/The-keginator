@@ -125,12 +125,7 @@ const Terminal: React.FC<TerminalProps> = ({
       ref={terminalRef}
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className={`relative transition-all duration-300 ease-in-out ${
-  isMaximized
-    ? 'fixed inset-0 z-50 w-screen h-screen flex items-center justify-center bg-black/50 backdrop-blur-md p-4'
-    : 'max-w-4xl mx-auto'
-}`}
-
+      className={`relative ${isMaximized ? 'fixed inset-4 z-50' : 'max-w-4xl mx-auto'}`}
     >
       {/* Terminal Window */}
       <div className="bg-[#ffffff] dark:bg-black rounded-lg shadow-2xl border border-gray-500 dark:border-cyan-500/30 overflow-hidden">
