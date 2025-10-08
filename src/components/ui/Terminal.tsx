@@ -128,9 +128,9 @@ const Terminal: React.FC<TerminalProps> = ({
       className={`relative ${isMaximized ? 'fixed inset-4 z-50' : 'max-w-4xl mx-auto'}`}
     >
       {/* Terminal Window */}
-      <div className="bg-gray-900 dark:bg-black rounded-lg shadow-2xl border border-gray-800 dark:border-cyan-500/30 overflow-hidden">
+      <div className="bg-[#ffffff] dark:bg-black rounded-lg shadow-2xl border border-gray-500 dark:border-cyan-500/30 overflow-hidden">
         {/* Title Bar */}
-        <div className="flex items-center justify-between px-4 py-2 bg-gray-800 dark:bg-gray-950 border-b border-gray-700 dark:border-cyan-500/20">
+        <div className="flex items-center justify-between px-4 py-2 bg-[#ffffff] dark:bg-gray-950 border-b border-gray-200 dark:border-cyan-500/20">
           <div className="flex items-center space-x-3">
             <div className="flex space-x-2">
               <div className="w-3 h-3 rounded-full bg-red-500 hover:bg-red-600 cursor-pointer" onClick={stopSimulation}></div>
@@ -138,8 +138,8 @@ const Terminal: React.FC<TerminalProps> = ({
               <div className="w-3 h-3 rounded-full bg-green-500 hover:bg-green-600 cursor-pointer" onClick={startSimulation}></div>
             </div>
             <div className="flex items-center space-x-2">
-              <TerminalIcon className="w-4 h-4 text-cyan-400" />
-              <span className="text-sm font-mono text-cyan-400">keginator@terminal:~</span>
+              <TerminalIcon className="w-4 h-4 text-cyan-700 dark:text-cyan-400" />
+              <span className="text-sm font-mono text-cyan-900 dark:text-cyan-400">keginator@terminal:~</span>
             </div>
           </div>
           
@@ -151,7 +151,7 @@ const Terminal: React.FC<TerminalProps> = ({
                 whileTap={{ scale: 0.9 }}
                 className="p-1.5 rounded hover:bg-green-500/20 transition-colors group"
               >
-                <Play className="w-4 h-4 text-green-400 group-hover:text-green-300" />
+                <Play className="w-4 h-4 text-green-700 dark:text-green-400 group-hover:text-green-300" />
               </motion.button>
             ) : (
               <motion.button
@@ -179,7 +179,7 @@ const Terminal: React.FC<TerminalProps> = ({
         </div>
 
         {/* Terminal Content */}
-        <div className={`font-mono text-sm ${isMaximized ? 'h-[calc(100vh-8rem)]' : 'h-96'} overflow-y-auto p-4 bg-black custom-scrollbar`}>
+        <div className={`font-mono text-sm ${isMaximized ? 'h-[calc(100vh-8rem)]' : 'h-96'} overflow-y-auto p-4 bg-black/10 dark:bg-black custom-scrollbar`}>
           {/* System Info Banner */}
           <div className="mb-4 pb-4 border-b border-gray-800">
             <div className="text-cyan-400 mb-1">Keginator Data Cleaner v2.1.0</div>
