@@ -4,6 +4,8 @@ from fastapi.responses import RedirectResponse
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import jwt
 import bcrypt
+import base58 
+import json
 from datetime import datetime, timedelta
 import os
 from pydantic import BaseModel
@@ -196,17 +198,90 @@ async def google_login(request: Request):
     redirect_uri = request.url_for('google_callback')
     return await oauth.google.authorize_redirect(request, redirect_uri)
 
+# @router.get("/google/callback")
+# async def google_callback(request: Request):
+#     """Handle Google OAuth callback"""
+#     try:
+#         # Get token from Google
+#         token = await oauth.google.authorize_access_token(request)
+        
+#         # Get user info from Google
+#         user_info = token.get('userinfo')
+#         if not user_info:
+#             # Fallback: fetch user info manually
+#             async with httpx.AsyncClient() as client:
+#                 response = await client.get(
+#                     'https://www.googleapis.com/oauth2/v2/userinfo',
+#                     headers={'Authorization': f"Bearer {token['access_token']}"}
+#                 )
+#                 user_info = response.json()
+        
+#         email = user_info['email']
+#         name = user_info.get('name', email.split('@')[0])
+        
+#         # Check if user exists
+#         existing_user = None
+#         for user_id, user in users_db.items():
+#             if user["email"] == email:
+#                 existing_user = user
+#                 break
+        
+#         if existing_user:
+#             # User exists, log them in
+#             user_id = existing_user["id"]
+#         else:
+#             # Create new user
+#             user_id = str(uuid.uuid4())
+#             users_db[user_id] = {
+#                 "id": user_id,
+#                 "name": name,
+#                 "email": email,
+#                 "password": "",  # No password for OAuth users
+#                 "plan": "free",
+#                 "joined_date": datetime.utcnow().isoformat(),
+#                 "newsletter_subscribed": False
+#             }
+            
+#             user_stats[user_id] = {
+#                 "datasets_processed": 0,
+#                 "total_storage_used": 0
+#             }
+        
+#         # Create JWT token
+#         jwt_token = create_token(user_id, email)
+        
+#         # Redirect to frontend with token
+#         stats = user_stats.get(user_id, {"datasets_processed": 0, "total_storage_used": 0})
+#         user_data = {
+#             "id": user_id,
+#             "name": name,
+#             "email": email,
+#             "plan": users_db[user_id]["plan"],
+#             "joined_date": users_db[user_id]["joined_date"],
+#             "datasets_processed": stats["datasets_processed"],
+#             "total_storage_used": stats["total_storage_used"],
+#             "newsletter_subscribed": users_db[user_id]["newsletter_subscribed"]
+#         }
+        
+#         import urllib.parse
+#         user_json = urllib.parse.quote(str(user_data).replace("'", '"'))
+        
+#         return RedirectResponse(
+#             url=f"{FRONTEND_URL}/auth?token={jwt_token}&user={user_json}"
+#         )
+        
+#     except Exception as e:
+#         print(f"Google OAuth error: {e}")
+#         return RedirectResponse(url=f"{FRONTEND_URL}/auth?error=oauth_failed")
+
 @router.get("/google/callback")
 async def google_callback(request: Request):
     """Handle Google OAuth callback"""
     try:
-        # Get token from Google
         token = await oauth.google.authorize_access_token(request)
-        
-        # Get user info from Google
         user_info = token.get('userinfo')
+        
         if not user_info:
-            # Fallback: fetch user info manually
             async with httpx.AsyncClient() as client:
                 response = await client.get(
                     'https://www.googleapis.com/oauth2/v2/userinfo',
@@ -225,16 +300,14 @@ async def google_callback(request: Request):
                 break
         
         if existing_user:
-            # User exists, log them in
             user_id = existing_user["id"]
         else:
-            # Create new user
             user_id = str(uuid.uuid4())
             users_db[user_id] = {
                 "id": user_id,
                 "name": name,
                 "email": email,
-                "password": "",  # No password for OAuth users
+                "password": "",
                 "plan": "free",
                 "joined_date": datetime.utcnow().isoformat(),
                 "newsletter_subscribed": False
@@ -245,32 +318,18 @@ async def google_callback(request: Request):
                 "total_storage_used": 0
             }
         
-        # Create JWT token
         jwt_token = create_token(user_id, email)
-        
-        # Redirect to frontend with token
         stats = user_stats.get(user_id, {"datasets_processed": 0, "total_storage_used": 0})
-        user_data = {
-            "id": user_id,
-            "name": name,
-            "email": email,
-            "plan": users_db[user_id]["plan"],
-            "joined_date": users_db[user_id]["joined_date"],
-            "datasets_processed": stats["datasets_processed"],
-            "total_storage_used": stats["total_storage_used"],
-            "newsletter_subscribed": users_db[user_id]["newsletter_subscribed"]
-        }
         
-        import urllib.parse
-        user_json = urllib.parse.quote(str(user_data).replace("'", '"'))
-        
+        # FIXED: Store token in query params, user data in session/localStorage
         return RedirectResponse(
-            url=f"{FRONTEND_URL}/auth?token={jwt_token}&user={user_json}"
+            url=f"{FRONTEND_URL}/auth/success?token={jwt_token}"
         )
         
     except Exception as e:
         print(f"Google OAuth error: {e}")
         return RedirectResponse(url=f"{FRONTEND_URL}/auth?error=oauth_failed")
+
 
 # Helper function to update user stats (to be called from main.py)
 def update_user_stats(user_id: str, dataset_size: int):

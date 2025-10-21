@@ -3,15 +3,17 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Settings, Sparkles, Upload, History, CheckCircle, User, LogIn } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ThemeToggle from '../ui/ThemeToggle';
+import { useAuth } from '../../hooks/useAuth';
 
 const Header: React.FC = () => {
   const location = useLocation();
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Check if user is authenticated
-  const isAuthenticated = !!localStorage.getItem('auth_token');
-  // const userData = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!) : null;
+  // // Check if user is authenticated
+  // const isAuthenticated = !!localStorage.getItem('auth_token');
+  // // const userData = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!) : null;
 
   const navItems = [
     { path: '/', label: 'Home', icon: Sparkles },
@@ -77,7 +79,7 @@ const Header: React.FC = () => {
             >
               <Link
                 to="/settings"
-                className="p-3 rounded-xl bg-white/10 backdrop-blur-md hover:bg-white/20 text-cyan-400 hover:text-cyan-300 border border-cyan-500/40 hover:border-cyan-400/60 transition-all duration-300 shadow-lg flex items-center justify-center"
+                className="p-3 rounded-xl bg-white/10  backdrop-blur-md hover:bg-white/20 text-cyan-400 hover:text-cyan-300 border border-cyan-500/40 hover:border-cyan-400/60 transition-all duration-300 shadow-lg flex items-center justify-center"
               >
                 <Settings className="w-5 h-5" />
               </Link>
@@ -85,7 +87,7 @@ const Header: React.FC = () => {
 
             {/* Centered Navigation Island */}
             <motion.nav 
-              className="flex items-center gap-1 bg-white/70 backdrop-blur-md rounded-2xl border border-cyan-500/30 p-1 shadow-xl"
+              className="flex items-center gap-1 bg-white/70 dark:bg-black/50 backdrop-blur-md rounded-2xl border border-cyan-500/30 p-1 shadow-xl"
               whileHover={{ scale: 1.02 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
@@ -135,7 +137,7 @@ const Header: React.FC = () => {
                 onClick={handleUserClick}
                 whileHover={{ scale: 1.05, y: -1 }}
                 whileTap={{ scale: 0.95 }}
-                className="p-3 rounded-xl bg-white/10  hover:bg-white/20 text-cyan-400 hover:text-cyan-300 border border-cyan-500/40 hover:border-cyan-400/60 transition-all duration-300 backdrop-blur-md shadow-lg relative group"
+                className="p-3 rounded-xl bg-white/10   hover:bg-white/20 text-cyan-400 hover:text-cyan-300 border border-cyan-500/40 hover:border-cyan-400/60 transition-all duration-300 backdrop-blur-md shadow-lg relative group"
                 title={isAuthenticated ? 'Dashboard' : 'Sign In'}
               >
                 {isAuthenticated ? (

@@ -1,18 +1,14 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Sun, Moon, Shield, LogOut, Bell, UserCog } from 'lucide-react';
+import { Sun, Moon, Shield, LogOut, Bell, UserCog, ArrowLeft } from 'lucide-react';
 import { useTheme } from '../hooks/useTheme';
+import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 
 const Settings: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
+  const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.removeItem('auth_token');
-    localStorage.removeItem('user');
-    navigate('/');
-  };
 
   const settingsOptions = [
     {
@@ -35,16 +31,38 @@ const Settings: React.FC = () => {
       label: 'Privacy & Security',
       onClick: () => alert('Privacy options coming soon.'),
     },
-    {
-      icon: LogOut,
-      label: 'Logout',
-      onClick: handleLogout,
-    },
+    ...(isAuthenticated
+      ? [
+          {
+            icon: LogOut,
+            label: 'Logout',
+            onClick: logout,
+          },
+        ]
+      : []),
   ];
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white pb-20 pt-12">
-      <div className="container mx-auto px-4">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 20 }}
+      transition={{ duration: 0.25 }}
+      className="fixed inset-0 z-[999] flex flex-col bg-white dark:bg-black text-black dark:text-white"
+    >
+      {/* Back button */}
+      <div className="absolute top-4 left-4 z-50">
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center space-x-2 px-4 py-2 rounded-full bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 dark:border-cyan-500/40 transition-all"
+        >
+          <ArrowLeft className="w-5 h-5 text-cyan-600 dark:text-cyan-300" />
+          <span className="font-medium text-cyan-700 dark:text-cyan-300">Back</span>
+        </button>
+      </div>
+
+      {/* Main content */}
+      <div className="flex-1 flex flex-col items-center px-4 pt-[100px] sm:pt-24 pb-10 overflow-y-auto">
         <motion.h1
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -53,7 +71,7 @@ const Settings: React.FC = () => {
           Settings
         </motion.h1>
 
-        <div className="max-w-lg mx-auto space-y-4">
+        <div className="w-full max-w-lg space-y-4">
           {settingsOptions.map((item, index) => (
             <motion.button
               key={index}
@@ -77,7 +95,7 @@ const Settings: React.FC = () => {
           ))}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

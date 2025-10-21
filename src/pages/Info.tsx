@@ -1,20 +1,35 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Github, Twitter, Mail, Heart, Cpu, Shield, LogOut } from 'lucide-react';
-import { useNavigate,  } from 'react-router-dom';
+import { Github, Twitter, Mail, Heart, Cpu, Shield, LogOut, ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 const Info: React.FC = () => {
+  const { isAuthenticated, logout } = useAuth();
   const currentYear = new Date().getFullYear();
   const navigate = useNavigate();
-    const handleLogout = () => {
-    localStorage.removeItem('auth_token');
-    localStorage.removeItem('user');
-    navigate('/');
-  };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white pb-32 pt-8"> 
-      <div className="container mx-auto px-4">
+    <motion.div
+      initial={{ y: '100%' }}
+      animate={{ y: 0 }}
+      exit={{ y: '100%' }}
+      transition={{ duration: 0.3, ease: 'easeInOut' }}
+      className="fixed inset-0 z-[999] bg-white dark:bg-black text-black dark:text-white overflow-y-auto flex flex-col"
+    >
+      {/* Back Button */}
+      <div className="absolute top-4 left-4 z-50">
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center space-x-2 px-4 py-2 rounded-full bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 dark:border-cyan-500/40 transition-all"
+        >
+          <ArrowLeft className="w-5 h-5 text-cyan-600 dark:text-cyan-300" />
+          <span className="font-medium text-cyan-700 dark:text-cyan-300">Back</span>
+        </button>
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 container mx-auto px-4 pt-20 pb-32 sm:pt-24">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -48,13 +63,13 @@ const Info: React.FC = () => {
             Revolutionizing data integrity with Solana blockchain verification. 
             Built for the future of trusted data processing.
           </p>
-          
+
           {/* Social Links */}
           <div className="flex justify-center space-x-4">
             {[
               { icon: Github, href: 'https://github.com', label: 'GitHub' },
               { icon: Twitter, href: 'https://twitter.com', label: 'Twitter' },
-              { icon: Mail, href: 'mailto:hello@keginator.com', label: 'Email' }
+              { icon: Mail, href: 'mailto:hello@keginator.com', label: 'Email' },
             ].map((social) => (
               <motion.a
                 key={social.label}
@@ -121,35 +136,37 @@ const Info: React.FC = () => {
             ))}
           </div>
         </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="mb-12"
-        >
-          <h3 className="font-bold text-red-700 dark:text-red-400 text-xl mb-6 flex items-center justify-center space-x-2">
-            <LogOut className="w-6 h-6" />
-            <span>LOGOUT</span>
-          </h3>
-          <div className="grid grid-cols-2 gap-3 max-w-md mx-auto">
-            <motion.button
-                        onClick={handleLogout}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="mt-4 md:mt-0 px-6 py-2 border border-red-500 text-red-500 rounded-lg hover:bg-red-500/10 flex items-center space-x-2"
-                      >
-                        <LogOut className="w-4 h-4" />
-                        <span>Logout</span>
-                      </motion.button>
-          </div>
-        </motion.div>
 
-        {/* Bottom Text */}
+        {isAuthenticated && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35 }}
+            className="mb-12"
+          >
+            <h3 className="font-bold text-red-700 dark:text-red-400 text-xl mb-6 flex items-center justify-center space-x-2">
+              <LogOut className="w-6 h-6" />
+              <span>LOGOUT</span>
+            </h3>
+            <div className="grid grid-cols-2 gap-3 max-w-md mx-auto">
+              <motion.button
+                onClick={logout}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-red-800 dark:text-red-300 hover:bg-red-500/20 transition-all duration-300 text-center font-medium"
+              >
+                Logout
+              </motion.button>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Footer */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className="border-t border-cyan-500/20 pt-8 text-center space-y-4"
+          className="border-t border-cyan-500/20 pt-8 text-center space-y-4 mb-10"
         >
           <p className="text-cyan-800 dark:text-cyan-300 flex items-center justify-center text-sm">
             <span className="flex items-center">
@@ -161,7 +178,7 @@ const Info: React.FC = () => {
           </p>
         </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -569,100 +569,143 @@ const Home: React.FC = () => {
 
       <CompaniesSection />
 
-      {/* Features Grid */}
-      <section className="relative py-20">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-gray-100">
-              ENTERPRISE DATA PLATFORM
-            </h2>
-            <p className="text-sm text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-              Everything you need for data integrity, cleaning, and blockchain verification in one platform.
-            </p>
-          </motion.div>
+      {/* Features Grid - Modern Layout */}
+<section className="relative py-20">
+  <div className="container mx-auto px-4">
+    <motion.div
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+      className="text-center mb-16"
+    >
+      <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-gray-100">
+        ENTERPRISE DATA PLATFORM
+      </h2>
+      <p className="text-sm text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+        Everything you need for data integrity, cleaning, and blockchain verification in one platform.
+      </p>
+    </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
-            <FeatureCard
-              icon={<Zap className="w-6 h-6 text-blue-600 dark:text-blue-400" />}
-              title="AI-Powered Cleaning"
-              description="Advanced machine learning algorithms automatically detect and fix data quality issues in real-time"
-              delay={0}
-              features={[
-                "Smart anomaly detection",
-                "Pattern recognition AI",
-                "Automated formatting",
-                "Real-time validation"
-              ]}
-            />
-            <FeatureCard
-              icon={<Shield className="w-6 h-6 text-blue-600 dark:text-blue-400" />}
-              title="Blockchain Verification"
-              description="Immutable Solana blockchain proofs for every dataset with instant verification"
-              delay={0.2}
-              features={[
-                "Solana blockchain integration",
-                "Instant verification",
-                "Immutable proof storage",
-                "Public audit trail"
-              ]}
-            />
-            <FeatureCard
-              icon={<Database className="w-6 h-6 text-blue-600 dark:text-blue-400" />}
-              title="Multi-Format Support"
-              description="Support for all major data formats with intelligent format detection and conversion"
-              delay={0.4}
-              features={[
-                "CSV, JSON, Parquet, XML",
-                "Auto-format detection",
-                "Batch processing",
-                "Streaming data support"
-              ]}
-            />
-            <FeatureCard
-              icon={<Cpu className="w-6 h-6 text-blue-600 dark:text-blue-400" />}
-              title="Real-time Processing"
-              description="Lightning-fast data processing with sub-second latency and real-time streaming"
-              delay={0.6}
-              features={[
-                "Sub-second processing",
-                "Real-time data streams",
-                "WebSocket API",
-                "Live monitoring dashboard"
-              ]}
-            />
-            <FeatureCard
-              icon={<Globe className="w-6 h-6 text-blue-600 dark:text-blue-400" />}
-              title="Global Infrastructure"
-              description="Distributed nodes across 15 regions ensuring 99.9% uptime and low latency worldwide"
-              delay={0.8}
-              features={[
-                "15 global regions",
-                "99.9% uptime SLA",
-                "Edge computing nodes",
-                "Auto-scaling clusters"
-              ]}
-            />
-            <FeatureCard
-              icon={<Lock className="w-6 h-6 text-blue-600 dark:text-blue-400" />}
-              title="Enterprise Security"
-              description="Military-grade encryption, SOC 2 compliance, and zero-trust architecture"
-              delay={1}
-              features={[
-                "End-to-end encryption",
-                "SOC 2 Type II compliant",
-                "Zero-trust security model",
-                "Comprehensive audit logging"
-              ]}
-            />
-          </div>
+    {/* Interactive Feature Matrix */}
+    <div className="relative max-w-6xl mx-auto">
+      {/* Animated Background Grid */}
+      
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 relative">
+        {/* Left Side - Feature Showcase */}
+        <div className="space-y-6">
+          {[
+            {
+              icon: <Zap className="w-5 h-5" />,
+              title: "AI-Powered Cleaning",
+              description: "Advanced ML algorithms detect and fix data quality issues in real-time",
+              stats: "99.7% Accuracy",
+              color: "text-purple-500"
+            },
+            {
+              icon: <Shield className="w-5 h-5" />,
+              title: "Blockchain Verification",
+              description: "Immutable Solana proofs with instant verification",
+              stats: "1.2s Average",
+              color: "text-green-500"
+            },
+            {
+              icon: <Database className="w-5 h-5" />,
+              title: "Multi-Format Support",
+              description: "All major formats with intelligent detection",
+              stats: "15+ Formats",
+              color: "text-blue-500"
+            }
+          ].map((feature, index) => (
+            <motion.div
+              key={feature.title}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.15 }}
+              whileHover={{ x: 10 }}
+              className="group p-6 rounded-2xl bg-white/40 dark:bg-gray-900/30 backdrop-blur-sm border border-gray-200/30 dark:border-gray-700/30 hover:border-gray-300/50 dark:hover:border-gray-600/50 transition-all duration-300 cursor-pointer"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <div className={`${feature.color} group-hover:scale-110 transition-transform duration-300`}>
+                    {feature.icon}
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-900 dark:text-white text-lg">
+                      {feature.title}
+                    </h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
+                      {feature.description}
+                    </p>
+                  </div>
+                </div>
+                <div className={`text-xs font-bold px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700`}>
+                  {feature.stats}
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
-      </section>
 
+        {/* Right Side - Feature Showcase */}
+        <div className="space-y-6">
+          {[
+            {
+              icon: <Cpu className="w-5 h-5" />,
+              title: "Real-time Processing",
+              description: "Sub-second latency with real-time streaming capabilities",
+              stats: "0.8s Latency",
+              color: "text-indigo-500"
+            },
+            {
+              icon: <Globe className="w-5 h-5" />,
+              title: "Global Infrastructure",
+              description: "15 regions worldwide with 99.9% uptime guarantee",
+              stats: "99.9% Uptime",
+              color: "text-teal-500"
+            },
+            {
+              icon: <Lock className="w-5 h-5" />,
+              title: "Enterprise Security",
+              description: "Military-grade encryption and zero-trust architecture",
+              stats: "SOC 2 Compliant",
+              color: "text-amber-500"
+            }
+          ].map((feature, index) => (
+            <motion.div
+              key={feature.title}
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.15 }}
+              whileHover={{ x: -10 }}
+              className="group p-6 rounded-2xl bg-white/40 dark:bg-gray-900/30 backdrop-blur-sm border border-gray-200/30 dark:border-gray-700/30 hover:border-gray-300/50 dark:hover:border-gray-600/50 transition-all duration-300 cursor-pointer"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <div className={`${feature.color} group-hover:scale-110 transition-transform duration-300`}>
+                    {feature.icon}
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-900 dark:text-white text-lg">
+                      {feature.title}
+                    </h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
+                      {feature.description}
+                    </p>
+                  </div>
+                </div>
+                <div className={`text-xs font-bold px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700`}>
+                  {feature.stats}
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      
+    </div>
+      </div>
+</section>
       <IntegrationSection />
       <UseCasesSection />
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Lock, User,  ArrowRight, Shield, Zap } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -21,6 +21,21 @@ const Auth: React.FC = () => {
     // Redirect to Google OAuth
     window.location.href = `${API_URL}/auth/google`;
   };
+
+  useEffect(() => {
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get('token');
+  const error = params.get('error');
+  
+  if (token) {
+    localStorage.setItem('auth_token', token);
+    navigate('/dashboard');
+  }
+  
+  if (error) {
+    alert('Google OAuth failed. Please try again.');
+  }
+}, [navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
