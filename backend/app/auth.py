@@ -13,6 +13,7 @@ from typing import Optional
 import uuid
 from authlib.integrations.starlette_client import OAuth
 import httpx
+import logging
 
 # Router for auth endpoints
 router = APIRouter(prefix="/auth", tags=["authentication"])
@@ -26,6 +27,9 @@ JWT_ALGORITHM = "HS256"
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", "")
 GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET", "")
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000")
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Initialize OAuth
 oauth = OAuth()

@@ -352,11 +352,11 @@ const History: React.FC = () => {
     loadHistory();
   }, []);
 
-  // AUTO-REFRESH every 5 seconds
+  // AUTO-REFRESH every 25 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       loadHistory();
-    }, 5000);
+    }, 25000);
     return () => clearInterval(interval);
   }, []);
 

@@ -1,0 +1,11 @@
+customerid,name,email,phone,city
+C001,James Bond,james@spy.com,1234567890.0,London
+C002,Ethan Hunt,ethan@imf.com,4445556666.0,New York
+C003,Jason Bourne,jason@cia.gov,9876543210.0,London
+C004,Natasha Romanoff,james@spy.com,5556667777.0,Moscow
+C005,James Bond,james@spy.com,1234567890.0,London
+C006,Bruce Wayne,bruce@wayne.com,1112223333.0,Gotham
+C007,Clark Kent,clark@dailyplanet.com,4445556666.0,Metropolis
+C008,Diana Prince,diana@themiscira.gov,4445556666.0,Themyscira
+C009,Peter Parker,peter@dailybugle.com,7778889999.0,New York
+C010,Tony Stark,tony@starkindustries.com,4445556666.0,Los Angeles

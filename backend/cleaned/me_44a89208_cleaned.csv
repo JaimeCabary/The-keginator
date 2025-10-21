@@ -1,0 +1,11 @@
+id,name,age,email,country
+1,John Doe,28.0,john@example.com,USA
+2,Jane Smith,29.0,jane@example.com,UK
+3,Bob Johnson,35.0,bob@example.com,USA
+4,Alice Brown,28.0,alice@example.com,USA
+5,John Doe,28.0,john@example.com,USA
+6,Charlie Davis,40.0,john@example.com,Canada
+7,Eve White,30.0,eve@example.com,UK
+8,Mike Green,35.0,mike@example.com,USA
+9,John Doe,25.0,anon@example.com,Germany
+10,Linda Black,29.0,linda@example.com,Canada

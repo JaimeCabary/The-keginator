@@ -1,0 +1,10 @@
+employeeid,name,department,salary,joiningdate
+E001,John Carter,HR,50000.0,2020-01-15
+E002,John Carter,Finance,60000.0,2019-03-12
+E003,Alice Green,IT,59000.0,2021-05-20
+E005,John Carter,HR,50000.0,2020-01-15
+E006,Carol White,Marketing,55000.0,2020-01-15
+E007,David Black,Finance,60000.0,2019-03-12
+E008,Eve Brown,Marketing,58000.0,2020-09-25
+E009,Frank Blue,IT,72000.0,2021-01-30
+E010,Gina Yellow,HR,59000.0,2022-02-10
