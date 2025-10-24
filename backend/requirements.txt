@@ -12,6 +12,46 @@
 # base58==2.1.1
 # python-dotenv==1.0.0
 # backend/requirements.txt
+
+
+# fastapi==0.118.0
+# uvicorn[standard]==0.37.0
+# pandas==2.3.3
+# numpy==2.3.3
+# python-multipart==0.0.20
+# pydantic==2.11.10
+# asyncpg==0.30.0
+# solana==0.30.2
+# solders==0.18.1
+# anchorpy==0.18.0
+# base58==2.1.1
+# python-dotenv==1.1.1
+# openpyxl==3.1.2
+# google-generativeai==0.8.5
+# scikit-learn==1.5.2
+
+# # Authentication & Security
+# pyjwt==2.8.0
+# bcrypt==4.1.2
+# python-jose[cryptography]==3.3.0
+# passlib[bcrypt]==1.7.4
+# authlib==1.2.1
+# itsdangerous==2.1.2
+# aiosqlite==0.19.0
+
+
+# # Multimodal Processing (New Requirements)
+# sentence-transformers==2.7.0
+# faster-whisper==1.0.2
+# # pydub==0.25.1
+
+# # Additional utilities
+# aiofiles==23.2.1
+# httpx==0.23.3
+
+
+
+# backend/requirements.txt
 fastapi==0.118.0
 uvicorn[standard]==0.37.0
 pandas==2.3.3
@@ -36,6 +76,11 @@ passlib[bcrypt]==1.7.4
 authlib==1.2.1
 itsdangerous==2.1.2
 aiosqlite==0.19.0
+
+# Multimodal Processing (New Requirements)
+sentence-transformers==2.7.0
+faster-whisper==1.0.2
+# pydub==0.25.1 -- REMOVED
 
 # Additional utilities
 aiofiles==23.2.1

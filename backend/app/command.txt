@@ -703,3 +703,1139 @@ uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 # #     if not file_path.exists():
 # #         raise HTTPException(404, "Dataset not found")
 # #     return FileResponse(file_path, media_type="text/csv", filename=f"{dataset_id}_cleaned.csv")
+
+
+
+# import pandas as pd
+# import numpy as np
+# from typing import Tuple, Dict, Any
+# from datetime import datetime
+# import re
+# import os
+
+# try:
+#     import google.generativeai as genai
+#     GENAI_AVAILABLE = True
+# except ImportError:
+#     GENAI_AVAILABLE = False
+#     print("⚠️ google-generativeai not installed. Install with: pip install google-generativeai")
+
+# class DataCleaner:
+#     """
+#     AI-Powered data cleaning engine using Gemini
+#     Handles missing values, duplicates, type normalization, and formatting
+#     """
+    
+#     def __init__(self):
+#         self.report = {}
+#         # Initialize Gemini
+#         api_key = os.getenv("GEMINI_API_KEY")
+#         if api_key:
+#             genai.configure(api_key=api_key)
+#             self.model = genai.GenerativeModel('gemini-pro')
+#             self.ai_enabled = True
+#         else:
+#             self.ai_enabled = False
+#             print("⚠️ GEMINI_API_KEY not set. Using rule-based cleaning only.")
+    
+#     def clean(self, df: pd.DataFrame) -> Tuple[pd.DataFrame, Dict[str, Any]]:
+#         """
+#         Main cleaning pipeline with AI-powered analysis
+#         Returns: (cleaned_df, cleaning_report)
+#         """
+#         self.report = {
+#             "original_shape": df.shape,
+#             "operations": [],
+#             "ai_insights": []
+#         }
+        
+#         df_cleaned = df.copy()
+        
+#         # Step 0: AI-Powered Data Analysis (if enabled)
+#         if self.ai_enabled:
+#             df_cleaned = self._ai_analyze_and_clean(df_cleaned)
+        
+#         # Step 1: Remove completely empty rows/columns
+#         df_cleaned = self._remove_empty(df_cleaned)
+        
+#         # Step 2: Standardize column names
+#         df_cleaned = self._standardize_columns(df_cleaned)
+        
+#         # Step 3: Handle duplicates
+#         df_cleaned = self._remove_duplicates(df_cleaned)
+        
+#         # Step 4: Infer and normalize data types
+#         df_cleaned = self._normalize_types(df_cleaned)
+        
+#         # Step 5: Handle missing values
+#         df_cleaned = self._handle_missing(df_cleaned)
+        
+#         # Step 6: Standardize formats (dates, strings, numbers)
+#         df_cleaned = self._standardize_formats(df_cleaned)
+        
+#         # Step 7: Remove outliers (conservative approach)
+#         df_cleaned = self._handle_outliers(df_cleaned)
+        
+#         # Step 8: AI-Powered Final Validation
+#         if self.ai_enabled:
+#             df_cleaned = self._ai_validate(df_cleaned)
+        
+#         self.report["final_shape"] = df_cleaned.shape
+#         self.report["rows_removed"] = df.shape[0] - df_cleaned.shape[0]
+#         self.report["columns_removed"] = df.shape[1] - df_cleaned.shape[1]
+        
+#         return df_cleaned, self.report
+    
+#     def _ai_analyze_and_clean(self, df: pd.DataFrame) -> pd.DataFrame:
+#         """Use Gemini AI to analyze dataset and suggest cleaning strategies"""
+#         try:
+#             # Create a summary of the dataset for AI analysis
+#             summary = self._create_dataset_summary(df)
+            
+#             prompt = f"""You are a data cleaning expert. Analyze this dataset summary and provide specific cleaning recommendations in JSON format.
+
+# Dataset Summary:
+# {summary}
+
+# Provide recommendations in this exact JSON format (no markdown, just JSON):
+# {{
+#     "column_types": {{"column_name": "recommended_type"}},
+#     "columns_to_drop": ["column1", "column2"],
+#     "encoding_fixes": {{"column_name": "fix_description"}},
+#     "value_replacements": {{"column_name": {{"old_value": "new_value"}}}},
+#     "insights": ["insight1", "insight2"]
+# }}"""
+            
+#             response = self.model.generate_content(prompt)
+#             recommendations = self._parse_ai_response(response.text)
+            
+#             if recommendations:
+#                 # Apply AI recommendations
+#                 df = self._apply_ai_recommendations(df, recommendations)
+#                 self.report["ai_insights"] = recommendations.get("insights", [])
+        
+#         except Exception as e:
+#             print(f"⚠️ AI analysis failed: {e}")
+#             self.report["ai_insights"] = ["AI analysis unavailable"]
+        
+#         return df
+    
+#     def _create_dataset_summary(self, df: pd.DataFrame) -> str:
+#         """Create a concise summary for AI analysis"""
+#         summary_parts = []
+        
+#         # Basic info
+#         summary_parts.append(f"Shape: {df.shape[0]} rows × {df.shape[1]} columns")
+#         summary_parts.append(f"\nColumns: {', '.join(df.columns.tolist()[:10])}")
+        
+#         # Data types
+#         summary_parts.append(f"\nData Types:\n{df.dtypes.to_string()}")
+        
+#         # Missing values
+#         missing = df.isnull().sum()
+#         if missing.any():
+#             summary_parts.append(f"\nMissing Values:\n{missing[missing > 0].to_string()}")
+        
+#         # Sample data (first 3 rows)
+#         summary_parts.append(f"\nSample Data (first 3 rows):\n{df.head(3).to_string()}")
+        
+#         return "\n".join(summary_parts)
+    
+#     def _parse_ai_response(self, response_text: str) -> Dict[str, Any]:
+#         """Parse AI response and extract JSON recommendations"""
+#         try:
+#             # Remove markdown code blocks if present
+#             response_text = re.sub(r'```json\s*', '', response_text)
+#             response_text = re.sub(r'```\s*', '', response_text)
+            
+#             import json
+#             recommendations = json.loads(response_text)
+#             return recommendations
+#         except Exception as e:
+#             print(f"⚠️ Failed to parse AI recommendations: {e}")
+#             return {}
+    
+#     def _apply_ai_recommendations(self, df: pd.DataFrame, recommendations: Dict[str, Any]) -> pd.DataFrame:
+#         """Apply AI-generated cleaning recommendations"""
+#         operations = []
+        
+#         # Drop recommended columns
+#         columns_to_drop = recommendations.get("columns_to_drop", [])
+#         if columns_to_drop:
+#             existing_cols = [col for col in columns_to_drop if col in df.columns]
+#             if existing_cols:
+#                 df = df.drop(columns=existing_cols)
+#                 operations.append(f"Dropped columns: {', '.join(existing_cols)}")
+        
+#         # Apply value replacements
+#         replacements = recommendations.get("value_replacements", {})
+#         for col, replace_map in replacements.items():
+#             if col in df.columns:
+#                 df[col] = df[col].replace(replace_map)
+#                 operations.append(f"Replaced values in {col}")
+        
+#         # Apply recommended type conversions
+#         column_types = recommendations.get("column_types", {})
+#         for col, dtype in column_types.items():
+#             if col in df.columns:
+#                 try:
+#                     if dtype == "numeric":
+#                         df[col] = pd.to_numeric(df[col], errors='coerce')
+#                     elif dtype == "datetime":
+#                         df[col] = pd.to_datetime(df[col], errors='coerce')
+#                     elif dtype == "string":
+#                         df[col] = df[col].astype(str)
+#                     operations.append(f"Converted {col} to {dtype}")
+#                 except Exception as e:
+#                     print(f"⚠️ Failed to convert {col}: {e}")
+        
+#         if operations:
+#             self.report["operations"].append({
+#                 "step": "ai_recommendations",
+#                 "actions": operations
+#             })
+        
+#         return df
+    
+#     def _ai_validate(self, df: pd.DataFrame) -> pd.DataFrame:
+#         """Final AI validation of cleaned data"""
+#         try:
+#             summary = self._create_dataset_summary(df)
+            
+#             prompt = f"""Review this cleaned dataset and identify any remaining data quality issues.
+
+# {summary}
+
+# Provide issues in JSON format:
+# {{
+#     "quality_score": 85,
+#     "remaining_issues": ["issue1", "issue2"],
+#     "suggestions": ["suggestion1"]
+# }}"""
+            
+#             response = self.model.generate_content(prompt)
+#             validation = self._parse_ai_response(response.text)
+            
+#             if validation:
+#                 self.report["ai_insights"].append(f"Quality Score: {validation.get('quality_score', 'N/A')}")
+#                 self.report["ai_insights"].extend(validation.get("suggestions", []))
+        
+#         except Exception as e:
+#             print(f"⚠️ AI validation failed: {e}")
+        
+#         return df
+    
+#     def _remove_empty(self, df: pd.DataFrame) -> pd.DataFrame:
+#         """Remove completely empty rows and columns"""
+#         initial_shape = df.shape
+        
+#         # Remove empty rows
+#         df = df.dropna(how='all')
+        
+#         # Remove empty columns
+#         df = df.dropna(axis=1, how='all')
+        
+#         removed_rows = initial_shape[0] - df.shape[0]
+#         removed_cols = initial_shape[1] - df.shape[1]
+        
+#         if removed_rows > 0 or removed_cols > 0:
+#             self.report["operations"].append({
+#                 "step": "remove_empty",
+#                 "rows_removed": removed_rows,
+#                 "columns_removed": removed_cols
+#             })
+        
+#         return df
+    
+#     def _standardize_columns(self, df: pd.DataFrame) -> pd.DataFrame:
+#         """Standardize column names: lowercase, underscores, no special chars"""
+#         original_cols = df.columns.tolist()
+        
+#         new_cols = []
+#         for col in df.columns:
+#             # Convert to string, lowercase
+#             col_clean = str(col).lower().strip()
+            
+#             # Replace spaces and special chars with underscore
+#             col_clean = re.sub(r'[^\w\s]', '', col_clean)
+#             col_clean = re.sub(r'\s+', '_', col_clean)
+            
+#             # Remove multiple underscores
+#             col_clean = re.sub(r'_+', '_', col_clean)
+#             col_clean = col_clean.strip('_')
+            
+#             new_cols.append(col_clean)
+        
+#         # Handle duplicate column names
+#         seen = {}
+#         for i, col in enumerate(new_cols):
+#             if col in seen:
+#                 seen[col] += 1
+#                 new_cols[i] = f"{col}_{seen[col]}"
+#             else:
+#                 seen[col] = 0
+        
+#         df.columns = new_cols
+        
+#         self.report["operations"].append({
+#             "step": "standardize_columns",
+#             "mapping": dict(zip(original_cols, new_cols))
+#         })
+        
+#         return df
+    
+#     def _remove_duplicates(self, df: pd.DataFrame) -> pd.DataFrame:
+#         """Remove duplicate rows"""
+#         initial_rows = len(df)
+#         df = df.drop_duplicates()
+#         duplicates_removed = initial_rows - len(df)
+        
+#         if duplicates_removed > 0:
+#             self.report["operations"].append({
+#                 "step": "remove_duplicates",
+#                 "duplicates_removed": duplicates_removed
+#             })
+        
+#         return df
+    
+#     def _normalize_types(self, df: pd.DataFrame) -> pd.DataFrame:
+#         """Infer and normalize column data types"""
+#         type_changes = {}
+        
+#         for col in df.columns:
+#             original_type = str(df[col].dtype)
+            
+#             # Skip if already numeric
+#             if pd.api.types.is_numeric_dtype(df[col]):
+#                 continue
+            
+#             # Try converting to numeric
+#             if df[col].dtype == 'object':
+#                 # Check if it looks like a number
+#                 sample = df[col].dropna().head(100)
+#                 numeric_count = sum(self._is_numeric_string(str(x)) for x in sample)
+                
+#                 if len(sample) > 0 and numeric_count / len(sample) > 0.8:
+#                     df[col] = pd.to_numeric(df[col], errors='coerce')
+#                     type_changes[col] = f"{original_type} -> {df[col].dtype}"
+#                     continue
+                
+#                 # Try converting to datetime
+#                 try:
+#                     parsed = pd.to_datetime(df[col], errors='coerce')
+#                     if parsed.notna().sum() / len(df) > 0.5:
+#                         df[col] = parsed
+#                         type_changes[col] = f"{original_type} -> datetime64"
+#                 except:
+#                     pass
+        
+#         if type_changes:
+#             self.report["operations"].append({
+#                 "step": "normalize_types",
+#                 "type_changes": type_changes
+#             })
+        
+#         return df
+    
+#     def _is_numeric_string(self, s: str) -> bool:
+#         """Check if string represents a number"""
+#         try:
+#             s = s.strip().replace(',', '').replace('$', '').replace('%', '')
+#             float(s)
+#             return True
+#         except:
+#             return False
+    
+#     def _handle_missing(self, df: pd.DataFrame) -> pd.DataFrame:
+#         """Handle missing values intelligently"""
+#         missing_strategy = {}
+        
+#         for col in df.columns:
+#             missing_count = df[col].isna().sum()
+#             if missing_count == 0:
+#                 continue
+            
+#             missing_pct = missing_count / len(df)
+            
+#             # Drop column if >50% missing
+#             if missing_pct > 0.5:
+#                 df = df.drop(columns=[col])
+#                 missing_strategy[col] = "dropped (>50% missing)"
+#                 continue
+            
+#             # Numeric columns: fill with median
+#             if pd.api.types.is_numeric_dtype(df[col]):
+#                 df[col].fillna(df[col].median(), inplace=True)
+#                 missing_strategy[col] = "filled with median"
+            
+#             # Datetime columns: forward fill
+#             elif pd.api.types.is_datetime64_any_dtype(df[col]):
+#                 df[col].fillna(method='ffill', inplace=True)
+#                 missing_strategy[col] = "forward filled"
+            
+#             # Categorical/string columns: fill with mode or 'Unknown'
+#             else:
+#                 mode_val = df[col].mode()
+#                 if len(mode_val) > 0:
+#                     df[col].fillna(mode_val[0], inplace=True)
+#                     missing_strategy[col] = "filled with mode"
+#                 else:
+#                     df[col].fillna('Unknown', inplace=True)
+#                     missing_strategy[col] = "filled with 'Unknown'"
+        
+#         if missing_strategy:
+#             self.report["operations"].append({
+#                 "step": "handle_missing",
+#                 "strategy": missing_strategy
+#             })
+        
+#         return df
+    
+#     def _standardize_formats(self, df: pd.DataFrame) -> pd.DataFrame:
+#         """Standardize string and numeric formats"""
+#         format_changes = []
+        
+#         for col in df.columns:
+#             # String columns: trim whitespace
+#             if df[col].dtype == 'object':
+#                 df[col] = df[col].astype(str).str.strip()
+                
+#                 # If column looks like a name, apply title case
+#                 if 'name' in col.lower():
+#                     df[col] = df[col].str.title()
+#                     format_changes.append(f"{col}: applied title case")
+            
+#             # Numeric columns: round floats to 2 decimals
+#             elif pd.api.types.is_float_dtype(df[col]):
+#                 df[col] = df[col].round(2)
+#                 format_changes.append(f"{col}: rounded to 2 decimals")
+        
+#         if format_changes:
+#             self.report["operations"].append({
+#                 "step": "standardize_formats",
+#                 "changes": format_changes
+#             })
+        
+#         return df
+    
+#     def _handle_outliers(self, df: pd.DataFrame) -> pd.DataFrame:
+#         """Remove statistical outliers using IQR method"""
+#         outliers_removed = {}
+        
+#         for col in df.columns:
+#             if not pd.api.types.is_numeric_dtype(df[col]):
+#                 continue
+            
+#             Q1 = df[col].quantile(0.25)
+#             Q3 = df[col].quantile(0.75)
+#             IQR = Q3 - Q1
+            
+#             # Conservative bounds (3 * IQR instead of 1.5)
+#             lower_bound = Q1 - 3 * IQR
+#             upper_bound = Q3 + 3 * IQR
+            
+#             initial_count = len(df)
+#             df = df[(df[col] >= lower_bound) & (df[col] <= upper_bound)]
+#             removed = initial_count - len(df)
+            
+#             if removed > 0:
+#                 outliers_removed[col] = removed
+        
+#         if outliers_removed:
+#             self.report["operations"].append({
+#                 "step": "remove_outliers",
+#                 "outliers_removed": outliers_removed
+#             })
+        
+#         return df
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+# # import pandas as pd
+# # import numpy as np
+# # from typing import Tuple, Dict, Any
+# # from datetime import datetime
+# # import re
+
+
+# # class DataCleaner:
+# #     """
+# #     High-performance data cleaning engine
+# #     Handles missing values, duplicates, type normalization, and formatting
+# #     """
+    
+# #     def __init__(self):
+# #         self.report = {}
+    
+# #     def clean(self, df: pd.DataFrame) -> Tuple[pd.DataFrame, Dict[str, Any]]:
+# #         """
+# #         Main cleaning pipeline
+# #         Returns: (cleaned_df, cleaning_report)
+# #         """
+# #         self.report = {
+# #             "original_shape": df.shape,
+# #             "operations": []
+# #         }
+        
+# #         df_cleaned = df.copy()
+        
+# #         # 1. Remove completely empty rows/columns
+# #         df_cleaned = self._remove_empty(df_cleaned)
+        
+# #         # 2. Standardize column names
+# #         df_cleaned = self._standardize_columns(df_cleaned)
+        
+# #         # 3. Handle duplicates
+# #         df_cleaned = self._remove_duplicates(df_cleaned)
+        
+# #         # 4. Infer and normalize data types
+# #         df_cleaned = self._normalize_types(df_cleaned)
+        
+# #         # 5. Handle missing values
+# #         df_cleaned = self._handle_missing(df_cleaned)
+        
+# #         # 6. Standardize formats (dates, strings, numbers)
+# #         df_cleaned = self._standardize_formats(df_cleaned)
+        
+# #         # 7. Remove outliers (optional, conservative approach)
+# #         df_cleaned = self._handle_outliers(df_cleaned)
+        
+# #         self.report["final_shape"] = df_cleaned.shape
+# #         self.report["rows_removed"] = df.shape[0] - df_cleaned.shape[0]
+# #         self.report["columns_removed"] = df.shape[1] - df_cleaned.shape[1]
+        
+# #         return df_cleaned, self.report
+    
+# #     def _remove_empty(self, df: pd.DataFrame) -> pd.DataFrame:
+# #         """Remove completely empty rows and columns"""
+# #         initial_shape = df.shape
+        
+# #         # Remove empty rows
+# #         df = df.dropna(how='all')
+        
+# #         # Remove empty columns
+# #         df = df.dropna(axis=1, how='all')
+        
+# #         removed_rows = initial_shape[0] - df.shape[0]
+# #         removed_cols = initial_shape[1] - df.shape[1]
+        
+# #         if removed_rows > 0 or removed_cols > 0:
+# #             self.report["operations"].append({
+# #                 "step": "remove_empty",
+# #                 "rows_removed": removed_rows,
+# #                 "columns_removed": removed_cols
+# #             })
+        
+# #         return df
+    
+# #     def _standardize_columns(self, df: pd.DataFrame) -> pd.DataFrame:
+# #         """Standardize column names: lowercase, underscores, no special chars"""
+# #         original_cols = df.columns.tolist()
+        
+# #         new_cols = []
+# #         for col in df.columns:
+# #             # Convert to string, lowercase
+# #             col_clean = str(col).lower().strip()
+            
+# #             # Replace spaces and special chars with underscore
+# #             col_clean = re.sub(r'[^\w\s]', '', col_clean)
+# #             col_clean = re.sub(r'\s+', '_', col_clean)
+            
+# #             # Remove multiple underscores
+# #             col_clean = re.sub(r'_+', '_', col_clean)
+# #             col_clean = col_clean.strip('_')
+            
+# #             new_cols.append(col_clean)
+        
+# #         # Handle duplicate column names
+# #         seen = {}
+# #         for i, col in enumerate(new_cols):
+# #             if col in seen:
+# #                 seen[col] += 1
+# #                 new_cols[i] = f"{col}_{seen[col]}"
+# #             else:
+# #                 seen[col] = 0
+        
+# #         df.columns = new_cols
+        
+# #         self.report["operations"].append({
+# #             "step": "standardize_columns",
+# #             "mapping": dict(zip(original_cols, new_cols))
+# #         })
+        
+# #         return df
+    
+# #     def _remove_duplicates(self, df: pd.DataFrame) -> pd.DataFrame:
+# #         """Remove duplicate rows"""
+# #         initial_rows = len(df)
+# #         df = df.drop_duplicates()
+# #         duplicates_removed = initial_rows - len(df)
+        
+# #         if duplicates_removed > 0:
+# #             self.report["operations"].append({
+# #                 "step": "remove_duplicates",
+# #                 "duplicates_removed": duplicates_removed
+# #             })
+        
+# #         return df
+    
+# #     def _normalize_types(self, df: pd.DataFrame) -> pd.DataFrame:
+# #         """Infer and normalize column data types"""
+# #         type_changes = {}
+        
+# #         for col in df.columns:
+# #             original_type = str(df[col].dtype)
+            
+# #             # Skip if already numeric
+# #             if pd.api.types.is_numeric_dtype(df[col]):
+# #                 continue
+            
+# #             # Try converting to numeric
+# #             if df[col].dtype == 'object':
+# #                 # Check if it looks like a number
+# #                 sample = df[col].dropna().head(100)
+# #                 numeric_count = sum(self._is_numeric_string(str(x)) for x in sample)
+                
+# #                 if numeric_count / len(sample) > 0.8:  # 80% threshold
+# #                     df[col] = pd.to_numeric(df[col], errors='coerce')
+# #                     type_changes[col] = f"{original_type} -> {df[col].dtype}"
+# #                     continue
+                
+# #                 # Try converting to datetime
+# #                 try:
+# #                     parsed = pd.to_datetime(df[col], errors='coerce')
+# #                     if parsed.notna().sum() / len(df) > 0.5:  # 50% threshold
+# #                         df[col] = parsed
+# #                         type_changes[col] = f"{original_type} -> datetime64"
+# #                 except:
+# #                     pass
+        
+# #         if type_changes:
+# #             self.report["operations"].append({
+# #                 "step": "normalize_types",
+# #                 "type_changes": type_changes
+# #             })
+        
+# #         return df
+    
+# #     def _is_numeric_string(self, s: str) -> bool:
+# #         """Check if string represents a number"""
+# #         try:
+# #             s = s.strip().replace(',', '').replace('$', '').replace('%', '')
+# #             float(s)
+# #             return True
+# #         except:
+# #             return False
+    
+# #     def _handle_missing(self, df: pd.DataFrame) -> pd.DataFrame:
+# #         """Handle missing values intelligently"""
+# #         missing_strategy = {}
+        
+# #         for col in df.columns:
+# #             missing_count = df[col].isna().sum()
+# #             if missing_count == 0:
+# #                 continue
+            
+# #             missing_pct = missing_count / len(df)
+            
+# #             # Drop column if >50% missing
+# #             if missing_pct > 0.5:
+# #                 df = df.drop(columns=[col])
+# #                 missing_strategy[col] = "dropped (>50% missing)"
+# #                 continue
+            
+# #             # Numeric columns: fill with median
+# #             if pd.api.types.is_numeric_dtype(df[col]):
+# #                 df[col].fillna(df[col].median(), inplace=True)
+# #                 missing_strategy[col] = "filled with median"
+            
+# #             # Datetime columns: forward fill
+# #             elif pd.api.types.is_datetime64_any_dtype(df[col]):
+# #                 df[col].fillna(method='ffill', inplace=True)
+# #                 missing_strategy[col] = "forward filled"
+            
+# #             # Categorical/string columns: fill with mode or 'Unknown'
+# #             else:
+# #                 mode_val = df[col].mode()
+# #                 if len(mode_val) > 0:
+# #                     df[col].fillna(mode_val[0], inplace=True)
+# #                     missing_strategy[col] = "filled with mode"
+# #                 else:
+# #                     df[col].fillna('Unknown', inplace=True)
+# #                     missing_strategy[col] = "filled with 'Unknown'"
+        
+# #         if missing_strategy:
+# #             self.report["operations"].append({
+# #                 "step": "handle_missing",
+# #                 "strategy": missing_strategy
+# #             })
+        
+# #         return df
+    
+# #     def _standardize_formats(self, df: pd.DataFrame) -> pd.DataFrame:
+# #         """Standardize string and numeric formats"""
+# #         format_changes = []
+        
+# #         for col in df.columns:
+# #             # String columns: trim whitespace, title case for names
+# #             if df[col].dtype == 'object':
+# #                 df[col] = df[col].astype(str).str.strip()
+                
+# #                 # If column looks like a name (contains 'name' in column)
+# #                 if 'name' in col.lower():
+# #                     df[col] = df[col].str.title()
+# #                     format_changes.append(f"{col}: applied title case")
+            
+# #             # Numeric columns: round floats to 2 decimals
+# #             elif pd.api.types.is_float_dtype(df[col]):
+# #                 df[col] = df[col].round(2)
+# #                 format_changes.append(f"{col}: rounded to 2 decimals")
+        
+# #         if format_changes:
+# #             self.report["operations"].append({
+# #                 "step": "standardize_formats",
+# #                 "changes": format_changes
+# #             })
+        
+# #         return df
+    
+# #     def _handle_outliers(self, df: pd.DataFrame) -> pd.DataFrame:
+# #         """Remove statistical outliers (conservative IQR method)"""
+# #         outliers_removed = {}
+        
+# #         for col in df.columns:
+# #             if not pd.api.types.is_numeric_dtype(df[col]):
+# #                 continue
+            
+# #             Q1 = df[col].quantile(0.25)
+# #             Q3 = df[col].quantile(0.75)
+# #             IQR = Q3 - Q1
+            
+# #             # Conservative bounds (3 * IQR instead of 1.5)
+# #             lower_bound = Q1 - 3 * IQR
+# #             upper_bound = Q3 + 3 * IQR
+            
+# #             initial_count = len(df)
+# #             df = df[(df[col] >= lower_bound) & (df[col] <= upper_bound)]
+# #             removed = initial_count - len(df)
+            
+# #             if removed > 0:
+# #                 outliers_removed[col] = removed
+        
+# #         if outliers_removed:
+# #             self.report["operations"].append({
+# #                 "step": "remove_outliers",
+# #                 "outliers_removed": outliers_removed
+# #             })
+        
+# #         return df
+
+
+# # from solana.rpc.async_api import AsyncClient
+# # from solders.keypair import Keypair  # Changed from solana.keypair
+# # from solana.transaction import Transaction
+# # from solders.system_program import transfer, TransferParams  # Changed import
+# # from solders.pubkey import Pubkey
+# # from solders.instruction import Instruction, AccountMeta
+# # from solders.transaction import Transaction as SoldersTransaction  # May need this
+# # import base58
+# # import os
+# # import json
+# # from typing import Tuple, Optional
+# # import struct
+
+
+# # class SolanaClient:
+# #     """
+# #     Solana blockchain client for Keginator
+# #     Commits dataset hashes to Solana devnet
+# #     """
+
+# #     def __init__(self):
+# #         # Use devnet for hackathon
+# #         self.rpc_url = os.getenv("SOLANA_RPC_URL", "https://api.devnet.solana.com")
+# #         self.client = AsyncClient(self.rpc_url)
+
+# #         # Load payer keypair from env
+# #         private_key = os.getenv("SOLANA_PRIVATE_KEY")
+
+# #         if private_key:
+# #             try:
+# #                 # Case 1: JSON array format (from solana-keygen)
+# #                 if private_key.strip().startswith('['):
+# #                     key_bytes = bytes(json.loads(private_key))
+# #                 else:
+# #                     # Case 2: Base58 format (e.g., Phantom export)
+# #                     decoded = base58.b58decode(private_key)
+# #                     key_bytes = decoded[:64]  # Trim to 64 bytes if longer
+
+# #                 # solders.Keypair expects a 64-byte seed (secret key)
+# #                 self.payer = Keypair.from_bytes(key_bytes)
+# #             except Exception as e:
+# #                 print(f"⚠️ Invalid SOLANA_PRIVATE_KEY format ({e}). Using ephemeral keypair instead.")
+# #                 self.payer = Keypair()
+# #         else:
+# #             # No key provided → ephemeral keypair for testing
+# #             self.payer = Keypair()
+# #             print("⚠️ Warning: Using ephemeral keypair. Set SOLANA_PRIVATE_KEY in production.")
+
+# #         # Program ID (deployed Anchor program)
+# #         program_id_str = os.getenv("KEGINATOR_PROGRAM_ID", "11111111111111111111111111111111")
+# #         self.program_id = Pubkey.from_string(program_id_str)
+
+# #         print(f"🔗 Solana client initialized: {self.rpc_url}")
+# #         print(f"💼 Payer: {self.payer.pubkey()}")
+
+# #     def is_connected(self) -> bool:
+# #         """Check if connected to Solana"""
+# #         try:
+# #             return self.client is not None
+# #         except:
+# #             return False
+
+# #     async def commit_hash(
+# #         self,
+# #         dataset_hash: str,
+# #         user_id: str,
+# #         timestamp: int
+# #     ) -> str:
+# #         """
+# #         Commit dataset hash to Solana blockchain
+# #         Returns: transaction signature
+# #         """
+# #         try:
+# #             dataset_pda, bump = self._get_dataset_pda(dataset_hash)
+
+# #             # Build instruction data
+# #             instruction_data = self._build_commit_instruction(
+# #                 dataset_hash, user_id, timestamp, bump
+# #             )
+
+# #             # Create instruction
+# #             instruction = Instruction(
+# #                 program_id=self.program_id,
+# #                 accounts=[
+# #                     AccountMeta(pubkey=dataset_pda, is_signer=False, is_writable=True),
+# #                     AccountMeta(pubkey=self.payer.pubkey(), is_signer=True, is_writable=True),
+# #                     AccountMeta(pubkey=Pubkey.from_string("11111111111111111111111111111111"), is_signer=False, is_writable=False),
+# #                 ],
+# #                 data=instruction_data,
+# #             )
+
+# #             from solders.message import Message
+# #             from solders.transaction import Transaction as SoldersTransaction
+
+# #             blockhash_resp = await self.client.get_latest_blockhash()
+# #             blockhash = blockhash_resp.value.blockhash
+
+# #             message = Message.new_with_blockhash(
+# #                 [instruction],
+# #                 self.payer.pubkey(),
+# #                 blockhash
+# #             )
+
+# #             transaction = SoldersTransaction.new_unsigned(message)
+# #             transaction = SoldersTransaction([self.payer], message, blockhash)
+
+# #             response = await self.client.send_transaction(transaction)
+# #             signature = str(response.value)
+
+# #             await self.client.confirm_transaction(signature)
+
+# #             print(f"✅ Hash committed to Solana: {signature}")
+# #             return signature
+
+# #         except Exception as e:
+# #             print(f"❌ Solana commit failed: {e}")
+# #             raise Exception(f"Failed to commit to Solana: {str(e)}")
+
+# #     async def verify_hash(self, dataset_hash: str) -> Tuple[bool, Optional[int]]:
+# #         """
+# #         Verify if dataset hash exists on Solana
+# #         Returns: (exists, timestamp)
+# #         """
+# #         try:
+# #             dataset_pda, _ = self._get_dataset_pda(dataset_hash)
+# #             account_info = await self.client.get_account_info(dataset_pda)
+
+# #             if account_info.value is None:
+# #                 return False, None
+
+# #             data = account_info.value.data
+# #             if len(data) >= 81:
+# #                 timestamp = struct.unpack('<Q', data[72:80])[0]
+# #                 return True, timestamp
+
+# #             return True, None
+
+# #         except Exception as e:
+# #             print(f"⚠️ Verification error: {e}")
+# #             return False, None
+
+# #     def _get_dataset_pda(self, dataset_hash: str) -> Tuple[Pubkey, int]:
+# #         seeds = [
+# #             b"dataset",
+# #             dataset_hash.encode()[:32]
+# #         ]
+# #         pda, bump = Pubkey.find_program_address(seeds, self.program_id)
+# #         return pda, bump
+
+# #     def _build_commit_instruction(
+# #         self,
+# #         dataset_hash: str,
+# #         user_id: str,
+# #         timestamp: int,
+# #         bump: int
+# #     ) -> bytes:
+# #         discriminator = bytes([174, 39, 232, 127, 252, 3, 250, 87])
+
+# #         hash_bytes = dataset_hash.encode()[:32].ljust(32, b'\0')
+# #         user_bytes = user_id.encode()[:32].ljust(32, b'\0')
+# #         timestamp_bytes = struct.pack('<Q', timestamp)
+# #         bump_bytes = bytes([bump])
+
+# #         return discriminator + hash_bytes + user_bytes + timestamp_bytes + bump_bytes
+
+# #     async def get_balance(self) -> float:
+# #         """Get payer account balance in SOL"""
+# #         try:
+# #             balance = await self.client.get_balance(self.payer.pubkey())
+# #             return balance.value / 1e9
+# #         except:
+# #             return 0.0
+
+# #     async def close(self):
+# #         """Close client connection"""
+# #         await self.client.close()
+
+
+# # # Utility function for testing
+# # async def test_connection():
+# #     client = SolanaClient()
+# #     try:
+# #         balance = await client.get_balance()
+# #         print(f"✅ Connected to Solana")
+# #         print(f"💰 Balance: {balance} SOL")
+# #         return True
+# #     except Exception as e:
+# #         print(f"❌ Connection failed: {e}")
+# #         return False
+# #     finally:
+# #         await client.close()
+
+
+# # if __name__ == "__main__":
+# #     import asyncio
+# #     asyncio.run(test_connection())
+
+
+
+
+# from solana.rpc.async_api import AsyncClient
+# from solders.keypair import Keypair
+# from solana.transaction import Transaction
+# from solders.system_program import transfer, TransferParams
+# from solders.pubkey import Pubkey
+# from solders.instruction import Instruction, AccountMeta
+# from solders.transaction import Transaction as SoldersTransaction
+# import base58
+# import os
+# import json
+# from typing import Tuple, Optional
+# import struct
+
+
+# class SolanaClient:
+#     """
+#     Solana blockchain client for Keginator
+#     Commits dataset hashes to Solana devnet
+#     """
+
+#     def __init__(self):
+#         self.rpc_url = os.getenv("SOLANA_RPC_URL", "https://api.devnet.solana.com")
+#         self.client = AsyncClient(self.rpc_url)
+
+#         # Load payer keypair from env
+#         private_key = os.getenv("SOLANA_PRIVATE_KEY")
+
+#         if private_key:
+#             try:
+#                 # Case 1: JSON array format (from solana-keygen)
+#                 if private_key.strip().startswith('['):
+#                     key_bytes = bytes(json.loads(private_key))
+#                     # Trim to 64 bytes if needed
+#                     if len(key_bytes) > 64:
+#                         key_bytes = key_bytes[:64]
+#                 else:
+#                     # Case 2: Base58 format (e.g., Phantom export)
+#                     decoded = base58.b58decode(private_key)
+#                     key_bytes = decoded[:64]
+
+#                 # FIXED: Use from_bytes (not from_secret_key)
+#                 self.payer = Keypair.from_bytes(key_bytes)
+                
+#             except Exception as e:
+#                 print(f"⚠️ Invalid SOLANA_PRIVATE_KEY format ({e}). Using ephemeral keypair instead.")
+#                 self.payer = Keypair()
+#         else:
+#             self.payer = Keypair()
+#             print("⚠️ Warning: Using ephemeral keypair. Set SOLANA_PRIVATE_KEY in production.")
+
+#         # Program ID (deployed Anchor program)
+#         program_id_str = os.getenv("KEGINATOR_PROGRAM_ID", "11111111111111111111111111111111")
+#         self.program_id = Pubkey.from_string(program_id_str)
+
+#         print(f"🔗 Solana client initialized: {self.rpc_url}")
+#         print(f"💼 Payer: {self.payer.pubkey()}")
+
+#     def is_connected(self) -> bool:
+#         """Check if connected to Solana"""
+#         try:
+#             return self.client is not None
+#         except:
+#             return False
+
+#     async def commit_hash(
+#         self,
+#         dataset_hash: str,
+#         user_id: str,
+#         timestamp: int
+#     ) -> str:
+#         """
+#         Commit dataset hash to Solana blockchain
+#         Returns: transaction signature
+#         """
+#         try:
+#             dataset_pda, bump = self._get_dataset_pda(dataset_hash)
+
+#             instruction_data = self._build_commit_instruction(
+#                 dataset_hash, user_id, timestamp, bump
+#             )
+
+#             instruction = Instruction(
+#                 program_id=self.program_id,
+#                 accounts=[
+#                     AccountMeta(pubkey=dataset_pda, is_signer=False, is_writable=True),
+#                     AccountMeta(pubkey=self.payer.pubkey(), is_signer=True, is_writable=True),
+#                     AccountMeta(pubkey=Pubkey.from_string("11111111111111111111111111111111"), is_signer=False, is_writable=False),
+#                 ],
+#                 data=instruction_data,
+#             )
+
+#             from solders.message import Message
+#             from solders.transaction import Transaction as SoldersTransaction
+
+#             blockhash_resp = await self.client.get_latest_blockhash()
+#             blockhash = blockhash_resp.value.blockhash
+
+#             message = Message.new_with_blockhash(
+#                 [instruction],
+#                 self.payer.pubkey(),
+#                 blockhash
+#             )
+
+#             transaction = SoldersTransaction.new_unsigned(message)
+#             transaction = SoldersTransaction([self.payer], message, blockhash)
+
+#             response = await self.client.send_transaction(transaction)
+#             signature = str(response.value)
+
+#             await self.client.confirm_transaction(signature)
+
+#             print(f"✅ Hash committed to Solana: {signature}")
+#             return signature
+
+#         except Exception as e:
+#             print(f"❌ Solana commit failed: {e}")
+#             raise Exception(f"Failed to commit to Solana: {str(e)}")
+
+#     async def verify_hash(self, dataset_hash: str) -> Tuple[bool, Optional[int]]:
+#         """
+#         Verify if dataset hash exists on Solana
+#         Returns: (exists, timestamp)
+#         """
+#         try:
+#             dataset_pda, _ = self._get_dataset_pda(dataset_hash)
+#             account_info = await self.client.get_account_info(dataset_pda)
+
+#             if account_info.value is None:
+#                 return False, None
+
+#             data = account_info.value.data
+#             if len(data) >= 81:
+#                 timestamp = struct.unpack('<Q', data[72:80])[0]
+#                 return True, timestamp
+
+#             return True, None
+
+#         except Exception as e:
+#             print(f"⚠️ Verification error: {e}")
+#             return False, None
+
+#     def _get_dataset_pda(self, dataset_hash: str) -> Tuple[Pubkey, int]:
+#         seeds = [
+#             b"dataset",
+#             dataset_hash.encode()[:32]
+#         ]
+#         pda, bump = Pubkey.find_program_address(seeds, self.program_id)
+#         return pda, bump
+
+#     def _build_commit_instruction(
+#         self,
+#         dataset_hash: str,
+#         user_id: str,
+#         timestamp: int,
+#         bump: int
+#     ) -> bytes:
+#         discriminator = bytes([174, 39, 232, 127, 252, 3, 250, 87])
+
+#         hash_bytes = dataset_hash.encode()[:32].ljust(32, b'\0')
+#         user_bytes = user_id.encode()[:32].ljust(32, b'\0')
+#         timestamp_bytes = struct.pack('<Q', timestamp)
+#         bump_bytes = bytes([bump])
+
+#         return discriminator + hash_bytes + user_bytes + timestamp_bytes + bump_bytes
+
+#     async def get_balance(self) -> float:
+#         """Get payer account balance in SOL"""
+#         try:
+#             balance = await self.client.get_balance(self.payer.pubkey())
+#             return balance.value / 1e9
+#         except:
+#             return 0.0
+
+#     async def close(self):
+#         """Close client connection"""
+#         await self.client.close()
+
+
+# async def test_connection():
+#     client = SolanaClient()
+#     try:
+#         balance = await client.get_balance()
+#         print(f"✅ Connected to Solana")
+#         print(f"💰 Balance: {balance} SOL")
+#         return True
+#     except Exception as e:
+#         print(f"❌ Connection failed: {e}")
+#         return False
+#     finally:
+#         await client.close()
+
+
+# if __name__ == "__main__":
+#     import asyncio
+#     asyncio.run(test_connection())
+
