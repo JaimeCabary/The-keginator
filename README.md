@@ -1,57 +1,41 @@
 # ⚡ The Keginator: The Web3 AI Data Utility
-
 <div align="center">
 
-<img src="public/logo.png" alt="The Keginator Logo" width="30px" style="margin-bottom:15px;"/>
+<img src="public/logo.png" alt="The Keginator Logo" width="40px" style="margin-bottom:15px;"/>
 
 <p>
-<a href="https://github.com/JaimeCabary/The-keginator" 
-   style="background-color: #28a745; color: #fff; font-weight: 700; text-decoration: none; border-radius: 16px; padding: 10px 20px; display: inline-flex; align-items: center; gap: 8px; margin: 5px;">
-    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/github.svg" alt="GitHub" width="20px" height="20px" style="filter: invert(100%); vertical-align: middle;"/>
-    Build: Passing
+<a href="https://github.com/JaimeCabary/The-keginator">
+<img src="https://img.shields.io/badge/build-passing-brightgreen?style=for-the-badge" alt="Build"/>
 </a>
 
-<a href="https://www.python.org/" 
-   style="background-color: #306998; color: #fff; font-weight: 700; text-decoration: none; border-radius: 16px; padding: 10px 20px; display: inline-flex; align-items: center; gap: 8px; margin: 5px;">
-    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/python.svg" alt="Python" width="20px" height="20px" style="vertical-align: middle;"/>
-    Python 3.10+
+<a href="https://www.python.org/">
+<img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python"/>
 </a>
 
-<a href="https://fastapi.tiangolo.com/" 
-   style="background-color: #009688; color: #fff; font-weight: 700; text-decoration: none; border-radius: 16px; padding: 10px 20px; display: inline-flex; align-items: center; gap: 8px; margin: 5px;">
-    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/fastapi.svg" alt="FastAPI" width="20px" height="20px" style="vertical-align: middle;"/>
-    FastAPI Ready
+<a href="https://fastapi.tiangolo.com/">
+<img src="https://img.shields.io/badge/FastAPI-ready-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI"/>
 </a>
 
-<a href="https://reactjs.org/" 
-   style="background-color: #00D8FF; color: #1b1f23; font-weight: 700; text-decoration: none; border-radius: 16px; padding: 10px 20px; display: inline-flex; align-items: center; gap: 8px; margin: 5px;">
-    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/react.svg" alt="React" width="20px" height="20px" style="vertical-align: middle;"/>
-    React & TypeScript
+<a href="https://reactjs.org/">
+<img src="https://img.shields.io/badge/React-Typescript-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React"/>
 </a>
 
-<a href="https://nextjs.org/" 
-   style="background-color: #000000; color: #fff; font-weight: 700; text-decoration: none; border-radius: 16px; padding: 10px 20px; display: inline-flex; align-items: center; gap: 8px; margin: 5px;">
-    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/nextdotjs.svg" alt="Next.js" width="20px" height="20px" style="filter: invert(100%); vertical-align: middle;"/>
-    Next.js 13
+<a href="https://nextjs.org/">
+<img src="https://img.shields.io/badge/Next.js-13-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js"/>
 </a>
 
-<a href="https://solana.com/" 
-   style="background-color: #9945FF; color: #fff; font-weight: 700; text-decoration: none; border-radius: 16px; padding: 10px 20px; display: inline-flex; align-items: center; gap: 8px; margin: 5px;">
-    <img src="public/sol.png" alt="Solana" width="20px" height="20px" style="vertical-align: middle;"/>
-    Solana Supported
+<a href="https://solana.com/">
+<img src="https://img.shields.io/badge/Solana-supported-00FFA3?style=for-the-badge&logo=solana&logoColor=white" alt="Solana"/>
 </a>
 
-<a href="LICENSE" 
-   style="background-color: #333; color: #fff; font-weight: 700; text-decoration: none; border-radius: 16px; padding: 10px 20px; display: inline-flex; align-items: center; gap: 8px; margin: 5px;">
-    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/mit.svg" alt="License" width="20px" height="20px" style="filter: invert(100%); vertical-align: middle;"/>
-    License: MIT
+<a href="LICENSE">
+<img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="MIT License"/>
 </a>
 </p>
 
 <p>
-<a href="https://keginator.vercel.app" 
-   style="background-color: #FF5E00; color: #fff; font-weight: 700; text-decoration: none; border-radius: 16px; padding: 12px 30px; font-size: 18px; display: inline-flex; align-items: center; gap: 8px; margin: 5px;">
-    🚀 Launch App
+<a href="https://keginator.vercel.app">
+<img src="https://img.shields.io/badge/🚀 Launch%20App-Click%20Here-orange?style=for-the-badge" alt="Launch App"/>
 </a>
 </p>
 
