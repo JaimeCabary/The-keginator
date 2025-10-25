@@ -1,6 +1,6 @@
 # ⚡ The Keginator: The Web3 AI Data Utility
 
-![The Keginator Logo](/logo.png)
+![The Keginator Logo](public/logo.png)
 
 [![Build](https://img.shields.io/badge/build-passing-brightgreen?style=for-the-badge)](https://github.com/JaimeCabary/The-keginator)
 [![Python](https://img.shields.io/badge/python-3.10+-blue?style=for-the-badge)](https://www.python.org/)
@@ -113,31 +113,31 @@ npm start
 <table>
 <tr>
 <td align="center">
-<img src="/home1.png" alt="Home 1" width="250px"/><br>
+<img src="public/home1.png" alt="Home 1" width="250px"/><br>
 <b>Home 1</b><br>Main homepage interface
 </td>
 <td align="center">
-<img src="/home2.png" alt="Home 2" width="250px"/><br>
+<img src="public/home2.png" alt="Home 2" width="250px"/><br>
 <b>Home 2</b><br>Secondary homepage view / dashboard
 </td>
 </tr>
 <tr>
 <td align="center">
-<img src="/upload.png" alt="Upload Page" width="250px"/><br>
+<img src="public/upload.png" alt="Upload Page" width="250px"/><br>
 <b>Upload Page</b><br>File upload interface for CSV/PDF datasets
 </td>
 <td align="center">
-<img src="/verify.png" alt="Verification Page" width="250px"/><br>
+<img src="public/verify.png" alt="Verification Page" width="250px"/><br>
 <b>Verification Page</b><br>Verifying dataset authenticity via `/verify/{hash}`
 </td>
 </tr>
 <tr>
 <td align="center">
-<img src="/history.png" alt="History Page" width="250px"/><br>
+<img src="public/history.png" alt="History Page" width="250px"/><br>
 <b>History Page</b><br>Dashboard showing cleaned datasets and integrity history
 </td>
 <td align="center">
-<img src="/terminal.png" alt="Terminal" width="250px"/><br>
+<img src="public/terminal.png" alt="Terminal" width="250px"/><br>
 <b>Terminal</b><br>Local setup / backend running view
 </td>
 </tr>
