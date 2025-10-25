@@ -1,6 +1,6 @@
 # ⚡ The Keginator: The Web3 AI Data Utility
 
-![The Keginator Logo](assets/logo.png)
+![The Keginator Logo](/logo.png)
 
 [![Build](https://img.shields.io/badge/build-passing-brightgreen?style=for-the-badge)](https://github.com/JaimeCabary/The-keginator)
 [![Python](https://img.shields.io/badge/python-3.10+-blue?style=for-the-badge)](https://www.python.org/)
