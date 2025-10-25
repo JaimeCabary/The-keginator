@@ -3,7 +3,7 @@
 <div align="center">
 
 <!-- Main Logo -->
-<img src="public/logo.png" alt="The Keginator Logo" width="180px" style="margin-bottom:15px;"/>
+<img src="public/logo.png" alt="The Keginator Logo" width="30px" style="margin-bottom:15px;"/>
 
 <!-- Badges & Tech Logos -->
 <p>
