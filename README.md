@@ -1,41 +1,43 @@
 # ⚡ The Keginator: The Web3 AI Data Utility
-
 <div align="center">
 
-<!-- Main Logo -->
 <img src="public/logo.png" alt="The Keginator Logo" width="30px" style="margin-bottom:15px;"/>
 
-<!-- Badges & Tech Logos -->
 <p>
 <a href="https://github.com/JaimeCabary/The-keginator">
 <img src="https://img.shields.io/badge/build-passing-brightgreen?style=for-the-badge" alt="Build"/>
 </a>
+
 <a href="https://www.python.org/">
-<img src="/python.png" alt="Python 3.10+" width="32px" style="vertical-align:middle; margin-left:5px; margin-right:5px;"/>
-<img src="https://img.shields.io/badge/python-3.10+-blue?style=for-the-badge" alt="Python Badge"/>
+    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/python.svg" alt="Python" width="32px" style="vertical-align:middle; margin-right:5px;"/>
+    <img src="https://img.shields.io/badge/python-3.10+-blue?style=for-the-badge" alt="Python Badge"/>
 </a>
+
 <a href="https://fastapi.tiangolo.com/">
-<img src="/fastapi.png" alt="FastAPI" width="32px" style="vertical-align:middle; margin-left:5px; margin-right:5px;"/>
-<img src="https://img.shields.io/badge/FastAPI-ready-lightgrey?style=for-the-badge" alt="FastAPI Badge"/>
+    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/fastapi.svg" alt="FastAPI" width="32px" style="vertical-align:middle; margin-right:5px;"/>
+    <img src="https://img.shields.io/badge/FastAPI-ready-lightgrey?style=for-the-badge" alt="FastAPI Badge"/>
 </a>
+
 <a href="https://reactjs.org/">
-<img src="/react.png" alt="React" width="32px" style="vertical-align:middle; margin-left:5px; margin-right:5px;"/>
-<img src="https://img.shields.io/badge/React-Typescript-blue?style=for-the-badge" alt="React Badge"/>
+    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/react.svg" alt="React" width="32px" style="vertical-align:middle; margin-right:5px;"/>
+    <img src="https://img.shields.io/badge/React-Typescript-blue?style=for-the-badge" alt="React Badge"/>
 </a>
+
 <a href="https://nextjs.org/">
-<img src="/nextjs.png" alt="Next.js" width="32px" style="vertical-align:middle; margin-left:5px; margin-right:5px;"/>
-<img src="https://img.shields.io/badge/Next.js-13-black?style=for-the-badge" alt="Next.js Badge"/>
+    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/nextdotjs.svg" alt="Next.js" width="32px" style="vertical-align:middle; margin-right:5px;"/>
+    <img src="https://img.shields.io/badge/Next.js-13-black?style=for-the-badge" alt="Next.js Badge"/>
 </a>
+
 <a href="https://solana.com/">
-<img src="/sol.png" alt="Solana" width="32px" style="vertical-align:middle; margin-left:5px; margin-right:5px;"/>
-<img src="https://img.shields.io/badge/Solana-supported-purple?style=for-the-badge" alt="Solana Badge"/>
+    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/solana.svg" alt="Solana" width="32px" style="vertical-align:middle; margin-right:5px;"/>
+    <img src="https://img.shields.io/badge/Solana-supported-purple?style=for-the-badge" alt="Solana Badge"/>
 </a>
+
 <a href="LICENSE">
 <img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="MIT License"/>
 </a>
 </p>
 
-<!-- Launch Button -->
 <p>
 <a href="https://keginator.vercel.app">
 <img src="https://img.shields.io/badge/🚀 Launch%20App-Click%20Here-orange?style=for-the-badge" alt="Launch App"/>
