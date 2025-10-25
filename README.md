@@ -106,25 +106,45 @@ npm start
     KEGINATOR_PROGRAM_ID = Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS
 ```
 
-## 🖼️ Project Gallery (5 Images)
+## 🖼️ Project Gallery (Screenshots)
 
-Add your screenshots here to bring the project to life. Replace `assets/...` paths with your actual image files.
+<div align="center">
 
-| # | File | Description |
-| :-: | :--- | :--- |
-| 1 | assets/upload.png | File upload interface for CSV/PDF datasets. |
-| 2 | assets/cleaning.png | The AI cleaning and preprocessing engine in action. |
-| 3 | assets/commit.png | The Solana hash commitment confirmation. |
-| 4 | assets/verify.png | Verifying dataset authenticity via `/verify/{hash}`. |
-| 5 | assets/dashboard.png | Dashboard showing cleaned datasets and integrity history. |
+<table>
+<tr>
+<td align="center">
+<img src="/home1.png" alt="Home 1" width="250px"/><br>
+<b>Home 1</b><br>Main homepage interface
+</td>
+<td align="center">
+<img src="/home2.png" alt="Home 2" width="250px"/><br>
+<b>Home 2</b><br>Secondary homepage view / dashboard
+</td>
+</tr>
+<tr>
+<td align="center">
+<img src="/upload.png" alt="Upload Page" width="250px"/><br>
+<b>Upload Page</b><br>File upload interface for CSV/PDF datasets
+</td>
+<td align="center">
+<img src="/verify.png" alt="Verification Page" width="250px"/><br>
+<b>Verification Page</b><br>Verifying dataset authenticity via `/verify/{hash}`
+</td>
+</tr>
+<tr>
+<td align="center">
+<img src="/history.png" alt="History Page" width="250px"/><br>
+<b>History Page</b><br>Dashboard showing cleaned datasets and integrity history
+</td>
+<td align="center">
+<img src="/terminal.png" alt="Terminal" width="250px"/><br>
+<b>Terminal</b><br>Local setup / backend running view
+</td>
+</tr>
+</table>
 
-### Markdown Image Examples
+</div>
 
-![Upload Page](assets/upload.png)  
-![Cleaning Process](assets/cleaning.png)  
-![Blockchain Commit](assets/commit.png)  
-![Verification Page](assets/verify.png)  
-![Dashboard](assets/dashboard.png)
 
 
 
