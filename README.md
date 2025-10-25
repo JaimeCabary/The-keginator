@@ -1,95 +1,56 @@
 # ⚡ The Keginator: The Web3 AI Data Utility
 
-<style>
-/* Button Styles for Tech Logos */
-.duo-button {
-  /* Layout */
-  display: inline-flex;
-  align-items: center;
-  gap: 8px; 
-  margin: 5px;
-  padding: 10px 20px;
-
-  /* Appearance - Duolingo-inspired look */
-  background-color: #24292e; /* Dark background */
-  color: #ffffff;
-  font-family: 'Varela Round', sans-serif; /* A simple, friendly font style */
-  font-size: 16px;
-  font-weight: 700;
-  text-decoration: none;
-  border-radius: 16px; /* Highly rounded corners */
-  border: none;
-  box-shadow: 0 4px 0 #1b1f23; /* Dark shadow at the bottom for 3D/pressable effect */
-  cursor: pointer;
-  
-  /* Transition for pressable effect */
-  transition: all 0.1s ease-out;
-}
-
-.duo-button:hover {
-  background-color: #33383c; 
-}
-
-.duo-button:active {
-  transform: translateY(4px); /* Moves down to cover the shadow */
-  box-shadow: 0 0 0 #1b1f23; /* Removes shadow */
-}
-
-/* Styles for the CDN/Local SVG/PNG icons inside the button */
-.duo-button img {
-  width: 20px; 
-  height: 20px;
-  vertical-align: middle;
-}
-
-/* Style to handle logos that are natively black (like Next.js) for visibility */
-.duo-button .invert-icon {
-    filter: invert(100%); /* Makes the icon white to contrast with the dark background */
-}
-</style>
 <div align="center">
 
 <img src="public/logo.png" alt="The Keginator Logo" width="30px" style="margin-bottom:15px;"/>
 
 <p>
-<a href="https://github.com/JaimeCabary/The-keginator" class="duo-button" style="background-color: #28a745; box-shadow: 0 4px 0 #1c7438;">
-    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/github.svg" alt="GitHub" class="invert-icon"/>
+<a href="https://github.com/JaimeCabary/The-keginator" 
+   style="background-color: #28a745; color: #fff; font-weight: 700; text-decoration: none; border-radius: 16px; padding: 10px 20px; display: inline-flex; align-items: center; gap: 8px; margin: 5px;">
+    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/github.svg" alt="GitHub" width="20px" height="20px" style="filter: invert(100%); vertical-align: middle;"/>
     Build: Passing
 </a>
 
-<a href="https://www.python.org/" class="duo-button" style="background-color: #306998; box-shadow: 0 4px 0 #1d4360;">
-    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/python.svg" alt="Python"/>
+<a href="https://www.python.org/" 
+   style="background-color: #306998; color: #fff; font-weight: 700; text-decoration: none; border-radius: 16px; padding: 10px 20px; display: inline-flex; align-items: center; gap: 8px; margin: 5px;">
+    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/python.svg" alt="Python" width="20px" height="20px" style="vertical-align: middle;"/>
     Python 3.10+
 </a>
 
-<a href="https://fastapi.tiangolo.com/" class="duo-button" style="background-color: #009688; box-shadow: 0 4px 0 #005a52;">
-    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/fastapi.svg" alt="FastAPI"/>
+<a href="https://fastapi.tiangolo.com/" 
+   style="background-color: #009688; color: #fff; font-weight: 700; text-decoration: none; border-radius: 16px; padding: 10px 20px; display: inline-flex; align-items: center; gap: 8px; margin: 5px;">
+    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/fastapi.svg" alt="FastAPI" width="20px" height="20px" style="vertical-align: middle;"/>
     FastAPI Ready
 </a>
 
-<a href="https://reactjs.org/" class="duo-button" style="background-color: #00D8FF; color: #1b1f23; box-shadow: 0 4px 0 #00a4c0;">
-    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/react.svg" alt="React"/>
+<a href="https://reactjs.org/" 
+   style="background-color: #00D8FF; color: #1b1f23; font-weight: 700; text-decoration: none; border-radius: 16px; padding: 10px 20px; display: inline-flex; align-items: center; gap: 8px; margin: 5px;">
+    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/react.svg" alt="React" width="20px" height="20px" style="vertical-align: middle;"/>
     React & TypeScript
 </a>
 
-<a href="https://nextjs.org/" class="duo-button" style="background-color: #000000; box-shadow: 0 4px 0 #282828;">
-    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/nextdotjs.svg" alt="Next.js" class="invert-icon"/>
+<a href="https://nextjs.org/" 
+   style="background-color: #000000; color: #fff; font-weight: 700; text-decoration: none; border-radius: 16px; padding: 10px 20px; display: inline-flex; align-items: center; gap: 8px; margin: 5px;">
+    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/nextdotjs.svg" alt="Next.js" width="20px" height="20px" style="filter: invert(100%); vertical-align: middle;"/>
     Next.js 13
 </a>
 
-<a href="https://solana.com/" class="duo-button" style="background-color: #9945FF; box-shadow: 0 4px 0 #6e33b8;">
-    <img src="public/sol.png" alt="Solana"/>
+<a href="https://solana.com/" 
+   style="background-color: #9945FF; color: #fff; font-weight: 700; text-decoration: none; border-radius: 16px; padding: 10px 20px; display: inline-flex; align-items: center; gap: 8px; margin: 5px;">
+    <img src="public/sol.png" alt="Solana" width="20px" height="20px" style="vertical-align: middle;"/>
     Solana Supported
 </a>
 
-<a href="LICENSE" class="duo-button" style="background-color: #333; box-shadow: 0 4px 0 #111;">
-    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/mit.svg" alt="License" class="invert-icon"/>
+<a href="LICENSE" 
+   style="background-color: #333; color: #fff; font-weight: 700; text-decoration: none; border-radius: 16px; padding: 10px 20px; display: inline-flex; align-items: center; gap: 8px; margin: 5px;">
+    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/mit.svg" alt="License" width="20px" height="20px" style="filter: invert(100%); vertical-align: middle;"/>
     License: MIT
 </a>
 </p>
 
 <p>
-<a href="https://keginator.vercel.app" class="duo-button" style="background-color: #FF5E00; box-shadow: 0 4px 0 #cc4b00; padding: 12px 30px; font-size: 18px;">
+<a href="https://keginator.vercel.app" 
+   style="background-color: #FF5E00; color: #fff; font-weight: 700; text-decoration: none; border-radius: 16px; padding: 12px 30px; font-size: 18px; display: inline-flex; align-items: center; gap: 8px; margin: 5px;">
     🚀 Launch App
 </a>
 </p>
