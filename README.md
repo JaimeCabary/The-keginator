@@ -1,51 +1,100 @@
 # ⚡ The Keginator: The Web3 AI Data Utility
+
+<style>
+/* Button Styles for Tech Logos */
+.duo-button {
+  /* Layout */
+  display: inline-flex;
+  align-items: center;
+  gap: 8px; 
+  margin: 5px;
+  padding: 10px 20px;
+
+  /* Appearance - Duolingo-inspired look */
+  background-color: #24292e; /* Dark background */
+  color: #ffffff;
+  font-family: 'Varela Round', sans-serif; /* A simple, friendly font style */
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 16px; /* Highly rounded corners */
+  border: none;
+  box-shadow: 0 4px 0 #1b1f23; /* Dark shadow at the bottom for 3D/pressable effect */
+  cursor: pointer;
+  
+  /* Transition for pressable effect */
+  transition: all 0.1s ease-out;
+}
+
+.duo-button:hover {
+  background-color: #33383c; 
+}
+
+.duo-button:active {
+  transform: translateY(4px); /* Moves down to cover the shadow */
+  box-shadow: 0 0 0 #1b1f23; /* Removes shadow */
+}
+
+/* Styles for the CDN/Local SVG/PNG icons inside the button */
+.duo-button img {
+  width: 20px; 
+  height: 20px;
+  vertical-align: middle;
+}
+
+/* Style to handle logos that are natively black (like Next.js) for visibility */
+.duo-button .invert-icon {
+    filter: invert(100%); /* Makes the icon white to contrast with the dark background */
+}
+</style>
 <div align="center">
 
 <img src="public/logo.png" alt="The Keginator Logo" width="30px" style="margin-bottom:15px;"/>
 
 <p>
-<a href="https://github.com/JaimeCabary/The-keginator">
-<img src="https://img.shields.io/badge/build-passing-brightgreen?style=for-the-badge" alt="Build"/>
+<a href="https://github.com/JaimeCabary/The-keginator" class="duo-button" style="background-color: #28a745; box-shadow: 0 4px 0 #1c7438;">
+    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/github.svg" alt="GitHub" class="invert-icon"/>
+    Build: Passing
 </a>
 
-<a href="https://www.python.org/">
-    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/python.svg" alt="Python" width="32px" style="vertical-align:middle; margin-right:5px;"/>
-    <img src="https://img.shields.io/badge/python-3.10+-blue?style=for-the-badge" alt="Python Badge"/>
+<a href="https://www.python.org/" class="duo-button" style="background-color: #306998; box-shadow: 0 4px 0 #1d4360;">
+    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/python.svg" alt="Python"/>
+    Python 3.10+
 </a>
 
-<a href="https://fastapi.tiangolo.com/">
-    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/fastapi.svg" alt="FastAPI" width="32px" style="vertical-align:middle; margin-right:5px;"/>
-    <img src="https://img.shields.io/badge/FastAPI-ready-lightgrey?style=for-the-badge" alt="FastAPI Badge"/>
+<a href="https://fastapi.tiangolo.com/" class="duo-button" style="background-color: #009688; box-shadow: 0 4px 0 #005a52;">
+    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/fastapi.svg" alt="FastAPI"/>
+    FastAPI Ready
 </a>
 
-<a href="https://reactjs.org/">
-    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/react.svg" alt="React" width="32px" style="vertical-align:middle; margin-right:5px;"/>
-    <img src="https://img.shields.io/badge/React-Typescript-blue?style=for-the-badge" alt="React Badge"/>
+<a href="https://reactjs.org/" class="duo-button" style="background-color: #00D8FF; color: #1b1f23; box-shadow: 0 4px 0 #00a4c0;">
+    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/react.svg" alt="React"/>
+    React & TypeScript
 </a>
 
-<a href="https://nextjs.org/">
-    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/nextdotjs.svg" alt="Next.js" width="32px" style="vertical-align:middle; margin-right:5px;"/>
-    <img src="https://img.shields.io/badge/Next.js-13-black?style=for-the-badge" alt="Next.js Badge"/>
+<a href="https://nextjs.org/" class="duo-button" style="background-color: #000000; box-shadow: 0 4px 0 #282828;">
+    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/nextdotjs.svg" alt="Next.js" class="invert-icon"/>
+    Next.js 13
 </a>
 
-<a href="https://solana.com/">
-    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/solana.svg" alt="Solana" width="32px" style="vertical-align:middle; margin-right:5px;"/>
-    <img src="https://img.shields.io/badge/Solana-supported-purple?style=for-the-badge" alt="Solana Badge"/>
+<a href="https://solana.com/" class="duo-button" style="background-color: #9945FF; box-shadow: 0 4px 0 #6e33b8;">
+    <img src="public/sol.png" alt="Solana"/>
+    Solana Supported
 </a>
 
-<a href="LICENSE">
-<img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="MIT License"/>
+<a href="LICENSE" class="duo-button" style="background-color: #333; box-shadow: 0 4px 0 #111;">
+    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/mit.svg" alt="License" class="invert-icon"/>
+    License: MIT
 </a>
 </p>
 
 <p>
-<a href="https://keginator.vercel.app">
-<img src="https://img.shields.io/badge/🚀 Launch%20App-Click%20Here-orange?style=for-the-badge" alt="Launch App"/>
+<a href="https://keginator.vercel.app" class="duo-button" style="background-color: #FF5E00; box-shadow: 0 4px 0 #cc4b00; padding: 12px 30px; font-size: 18px;">
+    🚀 Launch App
 </a>
 </p>
 
 </div>
-
 
 **The Keginator** is an AI-powered data preparation and provenance utility built to solve a simple, urgent problem: **data scientists and engineers should not lose time or hackathons because their data isn't ready.**
 
